@@ -1,0 +1,9 @@
+<div class='record'>
+  <% @records.each do |record| %>
+    <% if record.image_url %>
+      <td> <%= link_to image_tag(record.image_url, :size => "300x300"), record.prod_url, :target => "_blank"%> </td>
+    <% else %>
+      <td> <%= link_to image_tag("/images/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%> </td>
+    <% end %>
+  <% end %>
+</div>
