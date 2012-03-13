@@ -26,7 +26,7 @@ task :import_records => :environment do
   index2 = 0
   rcount = 1
 
-  while index1 <= 10 do
+  while index1 <= 250 do
     vinylsearch = Nokogiri::HTML(open(amznsearchurl))
 
     vinylsearch.css(".product").each do |prod|
