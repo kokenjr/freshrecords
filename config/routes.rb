@@ -1,6 +1,8 @@
 Vynscraper::Application.routes.draw do
 
-  get "records" => "records#index"
+#  get "records" => "records#index"
+  root :to => "records#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
