@@ -24,8 +24,9 @@ task :import_records => :environment do
   search_asin = []
   index1 = 1
   index2 = 0
+  rcount = 1
 
-  while index1 <= 10 do
+  while index1 <= 250 do
     vinylsearch = Nokogiri::HTML(open(amznsearchurl))
 
     vinylsearch.css(".product").each do |prod|
@@ -48,7 +49,8 @@ task :import_records => :environment do
           asin = item.get('ASIN')
           produrl = AMZNPRODURL + asin
 
-          puts "Loading Record..."
+          puts "Loading Record #" + rcount.to_s
+          rcount += 1
           
           record = Record.find_or_create_by_asin(asin)
           record.update_attributes(:name => album, :artist => artist, :price => price, :release_date => date, :image_url => imagelink, :prod_url => produrl, :record_label => label)

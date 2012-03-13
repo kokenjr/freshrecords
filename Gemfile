@@ -26,7 +26,7 @@ gem 'nokogiri'
 gem 'amazon-ecs'
 gem 'mechanize'
 gem 'jquery-rails'
-gem 'kaminari'
+gem 'will_paginate'
 
 
 # To use ActiveModel has_secure_password

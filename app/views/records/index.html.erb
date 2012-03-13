@@ -1,14 +1,14 @@
 <h1>Records</h1>
 
 <form method="get">
-  <%= select_tag("date", options_for_select(["april", "may"])) %>
+  <%= select_tag("date", options_for_select(["Today", "Last week", "Last month", "Last 2 months", "Last 3 months", "Coming soon"])) %>
   <input type="submit" value="Filter" />
 </form>
 
-<% @records.each do |record| %>
-  <% if record.image_url %>
-    <td> <%= link_to image_tag(record.image_url, :size => "300x300"), record.prod_url%> </td>
-  <% else %>
-    <td> <%= link_to image_tag("/images/no-cover.jpg", :size => "300x300"), record.prod_url%> </td>
-  <% end %>
-<% end %>
+<div id='records'>
+  <div class='page'>
+    <%= render :partial => 'records' %>
+  </div>
+</div>
+
+<%= will_paginate @records %>
