@@ -1,9 +1,29 @@
 <div class='record'>
+  <% index = 0 %>
   <% @records.each do |record| %>
-    <% if record.image_url %>
-      <td> <%= link_to image_tag(record.image_url, :size => "300x300"), record.prod_url, :target => "_blank"%> </td>
-    <% else %>
-      <td> <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%> </td>
-    <% end %>
+    <div class='record-each'>
+      <% if record.image_url %>
+        <%= link_to image_tag(record.image_url, :size => "300x300"), record.prod_url, :target => "_blank"%>
+      <% else %>
+        <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
+      <% end %>
+      <div class='popup'>
+        Album: <%= record.name %> <br /> 
+        Artist: <%= record.artist %> <br /> 
+        Price: $<%= record.price %> <br /> 
+      </div>
+    </div>
   <% end %>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".record-each").each(function(index) {
+      $(this).hover(function() {
+        $(this).find('.popup').show();
+      }, function() {
+        $('.popup').hide();
+      }); 
+      }); 
+});
+</script>

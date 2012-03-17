@@ -1,3 +1,58 @@
 // Place all the styles related to the Records controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.record{
+  width:100%;
+  float:left;
+}
+
+.record .record-each {
+  width: 300px;
+  height: 300px;
+  float: left;
+  padding: 2px;
+//  -webkit-border-radius: 4px;
+//  -moz-border-radius: 4px;
+//  border-radius: 4px;  
+  position: relative;
+//  border: 1px solid #eee;  
+//  margin:7px 7px;
+}
+
+//.page .page-num {
+//  width: 120px;
+//  height: 120px;
+//  padding: 5px 15px;
+//  -webkit-border-radius: 4px;
+//  -moz-border-radius: 4px;
+//  border-radius: 4px;  
+//  position: relative;
+//  right: 10px;
+//  bottom: 10px;
+//  border: 1px solid #eee;  
+//  margin:7px 7px;
+//}
+
+
+.record .record-each .popup {
+    height: 60px;
+    width: 300px;
+    text-align: center;
+    vertical-align:middle;
+    /* Fallback for web browsers that don't support RGBa */
+    background-color: rgb(0, 0, 0);
+    /* RGBa with 0.6 opacity */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* For IE 5.5 - 7*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    /* For IE 8*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    color: white;
+    display: none;
+    //padding-top: 8px;
+    position: absolute;
+    right: 1px;
+    bottom: 100px;
+}

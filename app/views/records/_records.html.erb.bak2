@@ -1,0 +1,8 @@
+<div id='record'>
+    <% if records.image_url %>
+      <td> <%= link_to image_tag(records.image_url, :size => "300x300"), records.prod_url, :target => "_blank"%> </td>
+    <% else %>
+      <td> <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), records.prod_url, :target => "_blank"%> </td>
+    <% end %>
+</div>
+<div id='popup'>TESTING TESTING</div>

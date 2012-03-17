@@ -1,7 +1,18 @@
-$('#records').append('<%= j render 'records' %>');
+$('#records').append('<%= j render :partial => 'records' %>');
 <% if @records.next_page %>
   $('.pagination').replaceWith('<%= j will_paginate @records %>');
 <% else %>
   $('.pagination').remove();
 <% end %>
 <% sleep 1 %>
+
+$(document).ready(function() {
+    $(".record-each").each(function(index) {
+      $(this).hover(function() {
+        $(this).find('.popup').show();
+      }, function() {
+        $('.popup').hide();
+      }); 
+      }); 
+});
+
