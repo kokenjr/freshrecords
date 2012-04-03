@@ -28,7 +28,7 @@ task :import_records => :environment do
   index1 = 1
   index2 = 0
   rcount = 1
-  progress_bar = ProgressBar.new(TOTALPAGES, :bar, :percentage, :eta)
+  progress_bar = ProgressBar.new(TOTALPAGES, :percentage, :counter, :rate, :elapsed, :eta)
 
   while index1 <= TOTALPAGES do
     progress_bar.increment!
@@ -102,7 +102,7 @@ task :fetch_albumart => :environment do
   #amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
   count = 1
 
-  progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :bar, :percentage, :eta)
+  progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :percentage, :counter, :rate, :elapsed, :eta)
 
   Record.find_all_by_image_url(nil).each do |record|
   #Record.find_all_by_asin("B007DKN4GC").each do |record|
