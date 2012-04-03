@@ -2,8 +2,8 @@
 
 
 <form method="get">
-  <%= select_tag(:date, options_for_select(['Today', 'Coming soon'], :selected => params[:date]), :include_blank => true) %>
-  <%= select_tag(:genre, options_from_collection_for_select(Record.genrelist,"genre","genre", params[:genre])) %>
+  Released: <%= select_tag(:date, options_for_select(['Coming soon', 'This week', 'Last week', '2 weeks ago', 'Last month', '2 months ago', '3 months ago'], :selected => params[:date]), :include_blank => true) %>
+ Genre:  <%= select_tag(:genre, options_from_collection_for_select(Record.genrelist,"genre","genre", params[:genre])) %>
   <input type="submit" value="Filter" />
 </form>
 

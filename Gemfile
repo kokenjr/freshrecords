@@ -30,7 +30,9 @@ gem 'nokogiri'
 gem 'amazon-ecs'
 gem 'mechanize'
 gem 'will_paginate'
-
+gem 'levenshtein'
+gem 'rockstar'
+gem 'progress_bar'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
