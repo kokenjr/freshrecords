@@ -113,7 +113,7 @@ task :fetch_albumart => :environment do
     record_page.css(".noLinkDecoration a").each do |rp|
       if rp.attribute("href").text.include?("http")
         rp_page = Nokogiri::HTML(open(rp.attribute("href").text))
-        if rp_page.css("#prodImage").empty? == false && rp_page.css("#prodImage").attribute("src").text.include?("no-image-avail") == false
+        if rp_page.css("#prodImage").empty? == false && rp_page.css("#prodImage").attribute("src").text.include?("no-image") == false
           image_link = rp_page.css("#prodImage").attribute("src").text.gsub('._SL500_AA280_','')
           #puts "scraped method 1"
           break
