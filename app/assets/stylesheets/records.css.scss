@@ -2,39 +2,70 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "bootstrap";
 
-.record{
-  width:100%;
+body {
+  background: #cff;
+}
+
+.filter {
+  margin: 0 auto;
+  width: 620px;
+  padding: 0px 0px 10px 0px;
+}
+
+#records {
+  margin: 0 auto;
+  width: 1265px;
+}
+
+.record {
+  width: 100%;
+  white-space: nowrap;
+  //min-width: 1200px;
   float:left;
+  padding: 0px 0px 0px 16px;
+  background: #fff;
+//  -moz-border-radius:    10px;
+//  -webkit-border-radius: 10px;
+//  border-radius:         10px;
+}
+
+.pagination { 
+//  float:left; 
+  clear:both;
+  margin: 0 auto;
+  width: 420px;
+  padding: 10px 0px 0px 280px;
+}
+
+.shadow:hover {
+	border: solid 1px #CCC;
+	-moz-box-shadow: 1px 1px 5px black;
+	-webkit-box-shadow: 1px 1px 5px black;
+        box-shadow: 5px 5px 5px black;
+//  -moz-box-shadow: 3px 3px 4px #000;
+//  -webkit-box-shadow: 3px 3px 4px #000;
+//  box-shadow: 3px 3px 4px #000;
+  /* For IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+  /* For IE 5.5 - 7 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 
 .record .record-each {
   width: 300px;
   height: 300px;
+  padding: 16px 16px 0px 0px;
   float: left;
-  padding: 2px;
-//  -webkit-border-radius: 4px;
-//  -moz-border-radius: 4px;
-//  border-radius: 4px;  
-  position: relative;
-//  border: 1px solid #eee;  
-//  margin:7px 7px;
+  //background: red;
+  //position: relative;
 }
 
-//.page .page-num {
-//  width: 120px;
-//  height: 120px;
-//  padding: 5px 15px;
-//  -webkit-border-radius: 4px;
-//  -moz-border-radius: 4px;
-//  border-radius: 4px;  
-//  position: relative;
-//  right: 10px;
-//  bottom: 10px;
-//  border: 1px solid #eee;  
-//  margin:7px 7px;
-//}
-
+.record .record-each img{
+  width: 300px;
+  height: 300px;
+}
 
 .record .record-each .popup {
     height: 60px;
@@ -52,7 +83,8 @@
     color: white;
     display: none;
     //padding-top: 8px;
-    position: absolute;
-    right: 1px;
-    bottom: 100px;
+    position: relative;
+    left: 1px;
+    bottom: 150px;
 }
+

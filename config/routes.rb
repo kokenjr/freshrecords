@@ -3,6 +3,7 @@ Vynscraper::Application.routes.draw do
 #  get "records" => "records#index"
   #root :to => "records#index"
   root :to => "records#index"
+  get "comingsoon" => "records#comingsoon"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

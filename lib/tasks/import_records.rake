@@ -28,10 +28,11 @@ task :import_records => :environment do
   index1 = 1
   index2 = 0
   rcount = 1
-  progress_bar = ProgressBar.new(TOTALPAGES, :percentage, :eta)
+  #progress_bar = ProgressBar.new(TOTALPAGES, :percentage, :eta)
 
   while index1 <= TOTALPAGES do
-    progress_bar.increment!
+    #progress_bar.increment!
+    puts "Progress: [ " + '%.2f' % ((index1.to_f/TOTALPAGES.to_f)*100) + "%]"
 
     vinylsearch = Nokogiri::HTML(open(amznsearchurl))
 
@@ -67,7 +68,7 @@ task :import_records => :environment do
           #puts "--------------------------------------"
           rcount += 1
 
-          if imagelink == nil          
+          if imagelink == nil || imagelink.include?('41kG2tg40sL')    
             record = Record.find_or_create_by_asin(asin)
             record.update_attributes(:name => album, :artist => artist, :price => price, :release_date => date, :prod_url => produrl, :record_label => label, :genre => genre)
           else
@@ -102,13 +103,15 @@ task :fetch_albumart => :environment do
   #amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
   count = 1
 
-  progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :percentage, :eta)
+  #progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :percentage, :eta)
 
   Record.find_all_by_image_url(nil).each do |record|
-  #Record.find_all_by_asin("B007DKN4GC").each do |record|
-    progress_bar.increment!
+  #Record.find_all_by_asin("B007KKJ59U").each do |record|
+    #progress_bar.increment!
+    puts "Progress: [ " + '%.2f' % ((count.to_f/Record.find_all_by_image_url(nil).count.to_f)*100) + "%]"
+    
     image_link = record.image_url
-
+    
     record_page = Nokogiri::HTML(open(record.prod_url))
     record_page.css(".noLinkDecoration a").each do |rp|
       if rp.attribute("href").text.include?("http")
@@ -124,7 +127,7 @@ task :fetch_albumart => :environment do
         image_link = nil
       end
     end
-    
+  
     if image_link == nil
       image_search = Nokogiri::HTML(open(amzn_music_search_url + CGI::escape(record.artist + " " + record.name)))
       image_search.css(".product").each do |prod|

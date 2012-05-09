@@ -22,6 +22,7 @@ group :assets, :production do
   # gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
+  gem 'bootstrap-sass', '~> 2.0.0'
 end
 
 gem 'jquery-rails'

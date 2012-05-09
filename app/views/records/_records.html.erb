@@ -2,11 +2,13 @@
   <% index = 0 %>
   <% @records.each do |record| %>
     <div class='record-each'>
-      <% if record.image_url %>
-        <%= link_to image_tag(record.image_url, :size => "300x300"), record.prod_url, :target => "_blank"%>
-      <% else %>
-        <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
-      <% end %>
+      <div class='shadow'>
+        <% if record.image_url %>
+          <%= link_to image_tag(record.image_url, :size => '300x300'), record.prod_url, :target => "_blank"%>
+        <% else %>
+          <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
+        <% end %>
+      </div>
       <div class='popup'>
         Album: <%= record.name %> <br /> 
         Artist: <%= record.artist %> <br /> 
