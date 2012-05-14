@@ -136,7 +136,7 @@ task :fetch_albumart => :environment do
         prod_artist = prod.css(".ptBrand").text.downcase.gsub("by ","")
         record_artist = record.artist.downcase
 
-        if (prod.css(".productImage").empty? == false && prod.css("productImage").attribute("src").text..include?('41kG2tg40sL') == false) && (prod_artist.include?(record_artist) || record_artist.include?(prod_artist)) && (prod_title.include?(record_title) || Levenshtein.distance(prod_title,record_title) <= 2 || record_title.include?(prod_title))
+        if prod.css(".productImage").empty? == false && prod.css(".productImage").attribute("src").text.include?('41kG2tg40sL') == false && (prod_artist.include?(record_artist) || record_artist.include?(prod_artist)) && (prod_title.include?(record_title) || Levenshtein.distance(prod_title,record_title) <= 2 || record_title.include?(prod_title))
           image_link = prod.css(".productImage").attribute("src").text.gsub('._AA115_','').gsub('._AA160_','')
           #puts "scraped method 2"
           break
