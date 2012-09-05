@@ -1,3 +1,4 @@
+<% unless @records.empty? %>
 <div class='record'>
   <% index = 0 %>
   <% @records.each do |record| %>
@@ -17,6 +18,9 @@
     </div>
   <% end %>
 </div>
+<% else %>
+  <h2> No Records Found </h2>
+<% end %>
 
 <script type="text/javascript">
 $(document).ready(function() {

@@ -57,7 +57,7 @@ task :import_records => :environment do
           imagelink = item.get('LargeImage/URL')
           label = item_attributes.get('Label')
           asin = item.get('ASIN')
-          produrl = AMZNPRODURL + asin
+          produrl = AMZNPRODURL + asin + "?tag=vynscrapercom-20"
 
           #puts "Loading Record #" + rcount.to_s
           #puts "artist: " + artist
@@ -170,7 +170,7 @@ task :fetch_lastfm => :environment do
       top_tag = []
     end
     
-    if top_tag.blank?
+    if top_tag.blank?SIN=B0095DGN3Q&linkCode=xm2&tag=vynscrapercom-20
       genre = nil
     else
       genre = top_tag.name.capitalize
