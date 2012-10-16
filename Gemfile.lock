@@ -76,6 +76,7 @@ GEM
     mysql2 (0.3.11)
     net-http-digest_auth (1.2)
     net-http-persistent (2.6)
+    newrelic_rpm (3.5.0)
     nokogiri (1.5.2)
     ntlm-http (0.1.1)
     options (2.3.0)
@@ -108,6 +109,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2.2)
+    rb-readline (0.4.2)
     rdoc (3.12)
       json (~> 1.4)
     rockstar (0.6.4)
@@ -157,10 +159,12 @@ DEPENDENCIES
   levenshtein
   mechanize
   mysql2
+  newrelic_rpm
   nokogiri
   pg
   progress_bar
   rails (= 3.2.1)
+  rb-readline
   rockstar
   sass-rails (~> 3.2.3)
   thin
