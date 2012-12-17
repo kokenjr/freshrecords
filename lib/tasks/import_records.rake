@@ -20,6 +20,7 @@ task :import_records => :environment do
 
   AMZNURL = "http://www.amazon.com"
   AMZNPRODURL = "http://www.amazon.com/s/dp/"
+  USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64)"
   TOTALPAGES = 250
   #amznsearchurl = "http://www.amazon.com/s/ref=sr_st?qid=1330826277&rh=i%3Apopular%2Cn%3A5174%2Cp_n_binding_browse-bin%3A387647011&sort=releasedaterank"
   amznsearchurl = "http://www.amazon.com/s/ref=sr_nr_p_n_binding_browse-b_4?rh=n%3A5174%2Cp_n_binding_browse-bin%3A387647011&bbn=5174&sort=releasedaterank&ie=UTF8&qid=1332431382&rnid=387643011"
@@ -34,7 +35,7 @@ task :import_records => :environment do
     #progress_bar.increment!
     puts "Progress: [ " + '%.2f' % ((index1.to_f/TOTALPAGES.to_f)*100) + "%]"
 
-    vinylsearch = Nokogiri::HTML(open(amznsearchurl))
+    vinylsearch = Nokogiri::HTML(open(amznsearchurl, "User-Agent" => USER_AGENT))
 
     vinylsearch.css(".product").each do |prod|
       search_asin[index2] = prod.css(".title .title").attribute('href').text.split('/')[5] unless prod.css(".title .title").blank?
@@ -120,7 +121,7 @@ task :fetch_albumart => :environment do
       next
     end
 
-    record_page = Nokogiri::HTML(open(record.prod_url))
+    record_page = Nokogiri::HTML(open(record.prod_url, "User-Agent" => USER_AGENT))
     record_page.css(".noLinkDecoration a").each do |rp|
       if rp.attribute("href").text.include?("http")
         
@@ -128,7 +129,7 @@ task :fetch_albumart => :environment do
         resp = Net::HTTP.get_response(URI.parse(rp.attribute("href").text))
         next if resp.code.match("404")
       
-        rp_page = Nokogiri::HTML(open(rp.attribute("href").text))
+        rp_page = Nokogiri::HTML(open(rp.attribute("href").text, "User-Agent" => USER_AGENT))
         if !rp_page.css("#prodImage").blank? && !rp_page.css("#prodImage").attribute("src").text.include?("no-image")
           image_link = rp_page.css("#prodImage").attribute("src").text.gsub('._SL500_AA280_','')
           #puts "scraped method 1"
@@ -142,7 +143,7 @@ task :fetch_albumart => :environment do
     end
   
     if image_link.nil?
-      image_search = Nokogiri::HTML(open(amzn_music_search_url + CGI::escape(record.artist + " " + record.name)))
+      image_search = Nokogiri::HTML(open(amzn_music_search_url + CGI::escape(record.artist + " " + record.name, "User-Agent" => USER_AGENT)))
       image_search.css(".product").each do |prod|
         prod_title = prod.css(".title .title").text.downcase.gsub(",","")
         record_title = record.name.downcase.gsub(",","")
