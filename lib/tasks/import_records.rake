@@ -1,11 +1,15 @@
+require 'amazon/ecs'
+require 'rubygems'
+require 'open-uri'
+require 'nokogiri'
+require 'progress_bar'
+require 'levenshtein'
+require 'rockstar'
+  
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64)"
+
 desc "Import Records"
 task :import_records => :environment do
-  require 'amazon/ecs'
-  require 'rubygems'
-  require 'open-uri'
-  require 'nokogiri'
-  require 'progress_bar'
-
   # Set the default options; options will be camelized and converted to REST request parameters.
   # associate_tag and AWS_access_key_id are required options, associate_tag is required option
   # since API version 2011-08-01. 
@@ -20,7 +24,6 @@ task :import_records => :environment do
 
   AMZNURL = "http://www.amazon.com"
   AMZNPRODURL = "http://www.amazon.com/s/dp/"
-  USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64)"
   TOTALPAGES = 250
   #amznsearchurl = "http://www.amazon.com/s/ref=sr_st?qid=1330826277&rh=i%3Apopular%2Cn%3A5174%2Cp_n_binding_browse-bin%3A387647011&sort=releasedaterank"
   amznsearchurl = "http://www.amazon.com/s/ref=sr_nr_p_n_binding_browse-b_4?rh=n%3A5174%2Cp_n_binding_browse-bin%3A387647011&bbn=5174&sort=releasedaterank&ie=UTF8&qid=1332431382&rnid=387643011"
@@ -94,11 +97,6 @@ end
 
 desc "Fetch Album Art"
 task :fetch_albumart => :environment do
-  require 'rubygems'
-  require 'open-uri'
-  require 'nokogiri'
-  require 'levenshtein'
-  require 'progress_bar'
 
   amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dpopular&field-keywords="
   #amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
@@ -143,14 +141,14 @@ task :fetch_albumart => :environment do
     end
   
     if image_link.nil?
-      image_search = Nokogiri::HTML(open(amzn_music_search_url + CGI::escape(record.artist + " " + record.name, "User-Agent" => USER_AGENT)))
+      image_search = Nokogiri::HTML(open(amzn_music_search_url + CGI::escape(record.artist + " " + record.name), "User-Agent" => USER_AGENT))
       image_search.css(".product").each do |prod|
         prod_title = prod.css(".title .title").text.downcase.gsub(",","")
         record_title = record.name.downcase.gsub(",","")
         prod_artist = prod.css(".ptBrand").text.downcase.gsub("by ","")
         record_artist = record.artist.downcase
 
-        if !prod.css(".productImage").attribute("src").blank? && !prod.css(".productImage").attribute("src").text.include?('41kG2tg40sL') && (prod_artist.include?(record_artist) || record_artist.include?(prod_artist)) && (prod_title.include?(record_title) || Levenshtein.distance(prod_title,record_title) <= 2 || record_title.include?(prod_title))
+        if !prod.css(".productImage").blank? && !prod.css(".productImage").attribute("src").blank? && !prod.css(".productImage").attribute("src").text.include?('41kG2tg40sL') && (prod_artist.include?(record_artist) || record_artist.include?(prod_artist)) && (prod_title.include?(record_title) || Levenshtein.distance(prod_title,record_title) <= 2 || record_title.include?(prod_title))
           image_link = prod.css(".productImage").attribute("src").text.gsub('._AA115_','').gsub('._AA160_','')
           #puts "scraped method 2"
           break
@@ -167,8 +165,6 @@ end
 
 desc "Lastfm data"
 task :fetch_lastfm => :environment do
-  require 'rockstar'
-  require 'progress_bar'
   
   Rockstar.lastfm = {:apii_key => "7c58f1848c6ad8ff32cf07fb7e978d7b", :api_secret => "76900414f897ba5c201bba7acb71e72f"}
   progress_bar = ProgressBar.new(Record.count, :bar, :percentage, :eta)
