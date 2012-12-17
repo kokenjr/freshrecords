@@ -111,7 +111,14 @@ task :fetch_albumart => :environment do
     puts "Progress: [ " + '%.2f' % ((count.to_f/Record.find_all_by_image_url(nil).count.to_f)*100) + "%]"
     
     image_link = record.image_url
+        
+    resp = Net::HTTP.get_response(URI.parse(record.prod_url))
     
+    if resp.code.match("404")
+      record.destroy
+      next
+    end
+
     record_page = Nokogiri::HTML(open(record.prod_url))
     record_page.css(".noLinkDecoration a").each do |rp|
       if rp.attribute("href").text.include?("http")
