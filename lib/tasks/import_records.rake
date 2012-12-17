@@ -52,9 +52,7 @@ task :import_records => :environment do
           artist = item_attributes.get('Artist').to_s.gsub('&amp;', '&')
           genre = item.get('BrowseNodes/BrowseNode/Name').gsub('&amp;', '&')
           
-          if genre == "Styles"
-            genre = nil
-          end
+          genre = nil if genre == "Styles"
           
           price = item.get('OfferSummary/LowestNewPrice/FormattedPrice').to_s.gsub('$',"").to_f
           date = item_attributes.get('ReleaseDate')
@@ -72,13 +70,10 @@ task :import_records => :environment do
           #puts "--------------------------------------"
           rcount += 1
 
-          if imagelink == nil || imagelink.include?('41kG2tg40sL')    
-            record = Record.find_or_create_by_asin(asin)
-            record.update_attributes(:name => album, :artist => artist, :price => price, :release_date => date, :prod_url => produrl, :record_label => label, :genre => genre)
-          else
-            record = Record.find_or_create_by_asin(asin)
-            record.update_attributes(:name => album, :artist => artist, :price => price, :release_date => date, :image_url => imagelink, :prod_url => produrl, :record_label => label, :genre => genre)
-          end
+          record = Record.find_or_create_by_asin(asin)
+          #Don't update image url if its blank
+          record.update_attributes(:image_url => imagelink) unless imagelink == nil || imagelink.include?('41kG2tg40sL')
+          record.update_attributes(:name => album, :artist => artist, :price => price, :release_date => date, :prod_url => produrl, :record_label => label, :genre => genre)
 
         end
         search_asin = []
@@ -101,6 +96,9 @@ task :fetch_albumart => :environment do
   amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dpopular&field-keywords="
   #amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
   count = 0
+  record_count = Record.find_all_by_image_url(nil).count
+
+  puts "#{record_count} records have no album art"
 
   #progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :percentage, :eta)
 
@@ -108,11 +106,11 @@ task :fetch_albumart => :environment do
   #Record.find_all_by_asin("B007KKJ59U").each do |record|
     #progress_bar.increment!
     count += 1
-    puts "Progress: [ " + '%.2f' % ((count.to_f/Record.find_all_by_image_url(nil).count.to_f)*100) + "%]"
+    puts "Progress: [ " + '%.2f' % ((count.to_f/record_count.to_f)*100) + "%]"
     
     image_link = record.image_url
     
-    #make sure URL is valid
+    #make sure URL is valid, if it isn't remove the record
     resp = Net::HTTP.get_response(URI.parse(record.prod_url))
     if resp.code.match("404")
       record.destroy
@@ -123,9 +121,9 @@ task :fetch_albumart => :environment do
     record_page.css(".noLinkDecoration a").each do |rp|
       if rp.attribute("href").text.include?("http")
         
-        #make sure url is valid
+        #make sure url is valid, if not skip to next scraping method
         resp = Net::HTTP.get_response(URI.parse(rp.attribute("href").text))
-        next if resp.code.match("404")
+        break if resp.code.match("404")
       
         rp_page = Nokogiri::HTML(open(rp.attribute("href").text, "User-Agent" => USER_AGENT))
         if !rp_page.css("#prodImage").blank? && !rp_page.css("#prodImage").attribute("src").text.include?("no-image")
