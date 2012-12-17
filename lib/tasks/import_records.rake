@@ -101,13 +101,14 @@ task :fetch_albumart => :environment do
 
   amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dpopular&field-keywords="
   #amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
-  count = 1
+  count = 0
 
   #progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :percentage, :eta)
 
   Record.find_all_by_image_url(nil).each do |record|
   #Record.find_all_by_asin("B007KKJ59U").each do |record|
     #progress_bar.increment!
+    count += 1
     puts "Progress: [ " + '%.2f' % ((count.to_f/Record.find_all_by_image_url(nil).count.to_f)*100) + "%]"
     
     image_link = record.image_url
@@ -160,7 +161,6 @@ task :fetch_albumart => :environment do
 
     #puts "Updating art for: " + record.asin + " #" + count.to_s
     record.update_attributes(:image_url => image_link)
-    count += 1
   end
 end
 
