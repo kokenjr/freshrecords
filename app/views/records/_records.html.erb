@@ -1,3 +1,5 @@
+<%= javascript_include_tag "popup" %>
+
 <% unless @records.empty? %>
 <div class='record'>
   <% index = 0 %>
@@ -11,9 +13,10 @@
         <% end %>
       </div>
       <div class='popup'>
-        Album: <%= record.name %> <br /> 
-        Artist: <%= record.artist %> <br /> 
-        Price: $<%= record.price %> <br /> 
+        <b>Album: <%= record.name.truncate(34) %> <br /> 
+        Artist: <%= record.artist.truncate(34) %> <br /> 
+        Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
+        Price: $<%= record.price %> </b>
       </div>
     </div>
   <% end %>
@@ -21,15 +24,3 @@
 <% else %>
   <h2> No Records Found </h2>
 <% end %>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $(".record-each").each(function(index) {
-      $(this).hover(function() {
-        $(this).find('.popup').show();
-      }, function() {
-        $('.popup').hide();
-      }); 
-      }); 
-});
-</script>

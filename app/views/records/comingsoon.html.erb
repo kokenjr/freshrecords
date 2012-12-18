@@ -1,9 +1,9 @@
-<h1>Coming Soon</h1>
+<h1 align="center">Coming Soon</h1>
 
 <div class='filter'>
   <form method="get">
-    Releasing: <%= select_tag(:date, options_for_select(['This week', 'Next week', 'In 2 weeks', 'Next month', 'In 2 months', 'In 3+ months'], :selected => params[:date]), :include_blank => true) %>
-   Genre:  <%= select_tag(:genre, options_from_collection_for_select(Record.genrelist,"genre","genre", params[:genre])) %>
+    <b>Releasing:</b> <%= select_tag(:date, options_for_select(['This week', 'Next week', 'In 2 weeks', 'Next month', 'In 2 months', 'In 3+ months'], :selected => params[:date]), :include_blank => true) %>
+    <b>Genre:</b>  <%= select_tag(:genre, options_from_collection_for_select(Record.genrelist,"genre","genre", params[:genre])) %>
     <input type="submit" value="Filter" />
   </form>
 </div>
