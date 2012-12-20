@@ -1,8 +1,15 @@
 <%= javascript_include_tag "popup" %>
 
 <% unless @records.empty? %>
-<div class='record'>
-  <% index = 0 %>
+<% if @records.current_page == 1 && @records.next_page.blank? %>
+  <div class='record' style="border-radius: 10px;">
+<% elsif @records.current_page == 1 && !@records.next_page.blank? %>
+  <div class='record' style="border-radius: 10px 10px 0px 0px;">
+<% elsif @records.current_page != 1 && @records.next_page.blank? %>
+  <div class='record' style="border-radius: 0px 0px 10px 10px;">
+<% else %>
+  <div class='record'>
+<% end %>
   <% @records.each do |record| %>
     <div class='record-each'>
       <div class='shadow'>

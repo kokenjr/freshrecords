@@ -23,13 +23,11 @@
   </script>
 </head>
 <body>
-  <nav>
-    <ul class="nav pull-left">
-      <li><b><%= link_to "New Releases",    root_path %></b></li>
-      <li><b><%= link_to "Coming Soon",    comingsoon_path %></b></li>
-    </ul>
-  </nav>
-  <%= yield %>
+  <%= render 'layouts/header' %> 
+  <div class="container-fluid">
+    <%= yield %>
+    <%# render 'layouts/footer' %>
+  </div>
 
 </body>
 </html>
