@@ -1,1 +1,0 @@
-$(document).ready(function(){$(".record-each").each(function(a){$(this).hover(function(){$(this).find(".popup").show()},function(){$(".popup").hide()})})});

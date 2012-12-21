@@ -55,35 +55,25 @@ p {
 
 /* ----------------------------------*/
 
-.filter {
-  margin: 0 auto;
-  width: 620px;
-  padding: 10px 0px 10px 0px;
+.filter input {
+  vertical-align: top;
+}
+
+.container{
+  width: 1265px;
 }
 
 #records {
-  margin: 0 auto;
-  width: 1265px;
 }
 
 .record {
   width: 100%;
-  white-space: nowrap;
-  //min-width: 1200px;
   float:left;
   padding: 0px 0px 0px 16px;
   background: #fff;
-//  -moz-border-radius:    10px;
-//  -webkit-border-radius: 10px;
-//  border-radius:         10px;
 }
 
 .pagination { 
-//  float:left; 
-  clear:both;
-  margin: 0 auto;
-  width: 420px;
-  padding: 10px 0px 0px 280px;
 }
 
 .shadow:hover {
@@ -100,21 +90,20 @@ p {
   filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 
-.record .record-each {
+.record-each {
   width: 300px;
   height: 300px;
-  padding: 16px 16px 0px 0px;
+  //padding: 16px 16px 0px 0px;
+  margin: 16px 16px 0px 0px;
   float: left;
-  //background: red;
-  //position: relative;
 }
 
-.record .record-each img{
+.record-each img{
   width: 300px;
   height: 300px;
 }
 
-.record .record-each .popup {
+.record-each .popup {
     height: 70px;
     width: 300px;
     text-align: center;
@@ -133,6 +122,8 @@ p {
     position: relative;
     left: 1px;
     bottom: 150px;
+    font-size: .9em;
+    line-height: 1.3em;
 }
 
 
