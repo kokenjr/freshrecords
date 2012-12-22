@@ -4,7 +4,7 @@
   <form method="get">
     <b>Releasing:</b> <%= select_tag(:date, options_for_select(['This week', 'Next week', 'In 2 weeks', 'Next month', 'In 2 months', 'In 3+ months'], :selected => params[:date]), :include_blank => true) %>
     <b>Genre:</b>  <%= select_tag(:genre, options_from_collection_for_select(Record.genrelist,"genre","genre", params[:genre])) %>
-    <input type="submit" value="Filter" />
+    <input type="submit" class="btn btn-inverse" value="Filter" />
   </form>
 </div>
 
