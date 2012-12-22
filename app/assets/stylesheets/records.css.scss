@@ -55,6 +55,15 @@ p {
 
 /* ----------------------------------*/
 
+.modal.fade{
+  -webkit-transition:opacity .1s linear;
+  -moz-transition:opacity .1s linear;
+  -ms-transition:opacity .1s linear;
+  -o-transition:opacity .1s linear;
+  transition:opacity .1s linear;
+}
+
+
 .filter input {
   vertical-align: top;
 }
@@ -121,7 +130,7 @@ p {
     //padding-top: 8px;
     position: relative;
     left: 1px;
-    bottom: 150px;
+    bottom: 170px;
     font-size: .9em;
     line-height: 1.3em;
 }

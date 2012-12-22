@@ -15,10 +15,30 @@
       <div class='shadow'>
         <% if record.image_url %>
           <%= link_to image_tag(record.image_url, :size => '300x300'), record.prod_url, :target => "_blank"%>
+          <%# link_to image_tag(record.image_url, :size => '300x300'), "#myModal#{record.id}", "data-toggle" => "modal"%>
         <% else %>
           <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
+          <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), "#myModal#{record.id}", "data-toggle" => "modal"%>
         <% end %>
       </div>
+       
+      <!-- Modal -->
+      <div id="myModal<%= record.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Music Info</h3>
+        </div>
+        <div class="modal-body">
+          <b>Album: <%= record.name.truncate(34) %> <br /> 
+          Artist: <%= record.artist.truncate(34) %> <br /> 
+          Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
+          Price: $<%= record.price %> </b>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+      </div>
+
       <div class='popup'>
         <b>Album: <%= record.name.truncate(34) %> <br /> 
         Artist: <%= record.artist.truncate(34) %> <br /> 

@@ -16,8 +16,8 @@
       <div class="nav-collapse collapse">
         <!-- .nav, .navbar-search, .navbar-form, etc -->
         <ul class="nav pull-right">
-          <li><%= link_to "New Releases",    root_path %></li>
-          <li><%= link_to "Coming Soon",    comingsoon_path %></li>
+          <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "New Releases",    root_path %></li>
+          <li class="<%= 'active' if current_page?(comingsoon_path) %>"><%= link_to "Coming Soon",    comingsoon_path %></li>
         </ul>
       </div>
 
