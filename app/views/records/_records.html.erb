@@ -1,4 +1,5 @@
 <%= javascript_include_tag "popup" %>
+<%= javascript_include_tag "clickable" %>
 
 <% unless @records.empty? %>
 <% if @records.current_page == 1 && @records.next_page.blank? %>
@@ -17,8 +18,15 @@
           <%= link_to image_tag(record.image_url, :size => '300x300'), record.prod_url, :target => "_blank"%>
           <%# link_to image_tag(record.image_url, :size => '300x300'), "#myModal#{record.id}", "data-toggle" => "modal"%>
         <% else %>
-          <%= link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
-          <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), "#myModal#{record.id}", "data-toggle" => "modal"%>
+          <div class="no-cover">
+            <a href="<%= record.prod_url %>" target="_blank">
+              <p><%= record.name.blank? ? "N/A" : record.name %> <br />
+              by <br />
+              <%= record.artist.blank? ? "N/A" : record.artist %></p>
+            </a>
+            <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
+            <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), "#myModal#{record.id}", "data-toggle" => "modal"%>
+          </div>
         <% end %>
       </div>
        
