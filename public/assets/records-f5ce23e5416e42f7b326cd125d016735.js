@@ -1,0 +1,1 @@
+(function(){jQuery(function(){if($(".pagination").length)return $(window).scroll(function(){var e;e=$(".pagination .next_page").attr("href");if(e&&$(window).scrollTop()>$(document).height()-$(window).height()-50)return $(".pagination").text("Pressing more records..."),$.getScript(e)}),$(window).scroll()})}).call(this);
