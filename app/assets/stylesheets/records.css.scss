@@ -285,9 +285,18 @@ body .container{
     height: 250px;
   }
 
+  .no-cover p{
+    padding-top: 60px;
+    font-weight: 900;
+    font-size: 1.8em;
+    line-height: 1.3em;
+  }
+
   .record-each .popup {
     width: 250px;
     bottom: 160px;
+    font-size: .83em;
+    height: 65px;
   }
 }
 
