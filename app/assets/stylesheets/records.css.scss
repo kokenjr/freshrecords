@@ -222,16 +222,30 @@ body .container{
 
 /*-----------------------------------------*/
 
+/* Portrait for ipad/kindle tablets */
+@media (max-width: 1024px) {
+
+  body {
+    padding-left: 0px;
+    padding-top: 60px;
+  }
+
+  .navbar .brand {
+    padding-left: 30px;
+  }
+
+  body .container{
+    width: 950px;
+  }
+
+}
+
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 979px) {
 
   body {
     padding-left: 0px;
     padding-top: 0px;
-  }
-
-  .navbar .brand {
-    padding-left: 30px;
   }
 
   body .container{
@@ -245,10 +259,6 @@ body .container{
   body {
     padding-left: 0px;
     padding-top: 0px;
-  }
-
-  .navbar .brand {
-    padding-left: 30px;
   }
 
   body .container{
@@ -286,10 +296,6 @@ body .container{
   body {
     padding-left: 0px;
     padding-top: 0px;
-  }
-
-  .navbar .brand {
-    padding-left: 30px;
   }
 
   body .container{
