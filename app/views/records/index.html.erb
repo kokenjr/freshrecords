@@ -1,6 +1,6 @@
 <h1 align="center">New Releases</h1>
 
-<div class='filter' align="center">
+<div class='filter'>
   <form method="get">
     <b>Released:</b> <%= select_tag(:date, options_for_select(['This week', 'Last week', '2 weeks ago', 'Last month', '2 months ago', '3 months ago'], :selected => params[:date]), :include_blank => true) %>    
     <b>Genre:</b>  <%= select_tag(:genre, options_from_collection_for_select(Record.genrelist,"genre","genre", params[:genre])) %>

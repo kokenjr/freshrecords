@@ -89,14 +89,19 @@ p {
   transition:opacity .1s linear;
 }
 
+.filter {
+  margin:0 auto;
+  width: 700px;
+}
 
 .filter input {
   vertical-align: top;
 }
 
-.container{
+body .container{
   width: 1265px;
 }
+
 
 #records {
 }
@@ -215,3 +220,106 @@ p {
   float: left;
   margin-left: 10px;
 }
+
+/*-----------------------------------------*/
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+
+  body {
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+
+  .navbar .brand {
+    padding-left: 30px;
+  }
+
+  body .container{
+    width: 635px;
+  }
+
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+  body {
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+
+  .navbar .brand {
+    padding-left: 30px;
+  }
+
+  body .container{
+    width: 532px;
+  }
+
+  .filter {
+    width: 200px; 
+    margin:0 auto;
+  }
+
+  .record-each {
+    width: 250px;
+    height: 250px;
+  }
+
+  .record-each img{
+    width: 250px;
+    height: 250px;
+  }
+
+  .no-cover{
+    width: 250px;
+    height: 250px;
+  }
+
+  .record-each .popup {
+    width: 250px;
+    bottom: 160px;
+  }
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+  body {
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+
+  .navbar .brand {
+    padding-left: 30px;
+  }
+
+  body .container{
+    width: 265px;
+  }
+
+  .filter {
+    width: 200px;
+    margin:0 auto;
+  }
+
+  .record-each {
+    width: 250px;
+    height: 250px;
+  }
+
+  .record-each img{
+    width: 250px;
+    height: 250px;
+  }
+
+  .no-cover{
+    width: 250px;
+    height: 250px;
+  }
+
+  .record-each .popup {
+    width: 250px;
+    bottom: 160px;
+  }
+
+ }
