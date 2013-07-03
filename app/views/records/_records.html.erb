@@ -14,7 +14,7 @@
     <div class='record-each'>
       <div class='shadow'>
         <% if record.image_url %>
-          <%= link_to image_tag(record.image_url), record.prod_url, :target => "_blank"%>
+          <%= link_to image_tag(record.image_url, :size => '300x300'), record.prod_url, :target => "_blank"%>
           <%# link_to image_tag(record.image_url, :size => '300x300'), "#myModal#{record.id}", "data-toggle" => "modal"%>
         <% else %>
           <div class="no-cover">
