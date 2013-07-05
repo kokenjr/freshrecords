@@ -22,15 +22,15 @@ development:
   password: vinyl
   socket: /var/run/mysqld/mysqld.sock
 
-#test:
-#  adapter: mysql2
-#  encoding: utf8
-#  reconnect: false
-#  database: vynscraper_test
-#  pool: 5
-#  username: vinyl
-#  password: vinyl
-#  socket: /var/run/mysqld/mysqld.sock
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: vynscraper_test
+  pool: 5
+  username: vinyl
+  password: vinyl
+  socket: /var/run/mysqld/mysqld.sock
 
 #production:
 #  adapter: postgresql
