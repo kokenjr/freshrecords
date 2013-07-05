@@ -36,6 +36,7 @@ gem 'newrelic_rpm'
 gem 'jitai'
 #gem 'protected_attributes'
 gem 'rb-readline', '~> 0.4.2'
+gem 'rails_12factor'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
