@@ -1,4 +1,6 @@
 class Record < ActiveRecord::Base
+  belongs_to :artist
+
   scope :genrelist, -> { group(:genre).select(:genre).order('genre IS NOT NULL, genre ASC') }
   
   def self.this_week(genre)
