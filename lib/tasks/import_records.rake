@@ -41,7 +41,7 @@ task :import_records => :environment do
     vinylsearch = Nokogiri::HTML(open(amznsearchurl, "User-Agent" => USER_AGENT))
 
     vinylsearch.css(".product").each do |prod|
-      search_asin[index2] = prod.css(".title .title").attribute('href').text.split('/')[5] unless prod.css(".title .title").blank?
+      search_asin[index2] = prod.css(".title .title").attribute('href').text.split('/')[3] unless prod.css(".title .title").blank?
       if search_asin.length == 10
         res = Amazon::Ecs.item_lookup(search_asin.join(','), {:response_group => 'Large'})
         #puts res.error

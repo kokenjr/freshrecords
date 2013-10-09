@@ -16,3 +16,6 @@
 
 #Ignore files being edited
 *.swp
+
+.ruby-version
+.ruby-gemset
