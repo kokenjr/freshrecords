@@ -90,13 +90,13 @@ task :fetch_albumart => :environment do
   amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dpopular&field-keywords="
   #amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
   count = 0
-  record_count = Record.find_all_by(image_url: nil).count
+  record_count = Record.where(image_url: nil).count
 
   puts "#{record_count} records have no album art"
 
   #progress_bar = ProgressBar.new(Record.find_all_by_image_url(nil).count, :percentage, :eta)
 
-  Record.find_all_by(image_url: nil).each do |record|
+  Record.where(image_url: nil).each do |record|
   #Record.find_all_by_asin("B007KKJ59U").each do |record|
     #progress_bar.increment!
     count += 1
