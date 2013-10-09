@@ -1,0 +1,26 @@
+h1. jitai
+
+A rake utility that consolidates your collection of custom font files into manageable CSS files. 
+
+h2. Usage
+
+First, add your fonts to 
+
+pre. public/fonts
+
+Then, do a little bit of:
+
+pre. sudo gem install jitai
+rake jitai:refresh
+
+Jitai automatically converts your ttf fonts into eot format, so now you have the following stylesheets to your disposal:
+
+  * fonts_moz.css, Chrome, Firefox, Safari, and Opera compatible
+  * fonts_ie.css, IE compatible
+
+All of your custom fonts are now avaiable in your CSS files. For example, if you were to use the Yardsale font:
+
+pre. font-family: "yardsale"
+
+:3
+Copyright (c) 2010 Kelly. See LICENSE for details.
