@@ -14,17 +14,17 @@
     <div class='record-each'>
       <div class='shadow'>
         <% if record.image_url %>
-          <%= link_to image_tag(record.image_url), record.prod_url, :target => "_blank"%>
-          <%# link_to image_tag(record.image_url, :size => '300x300'), "#myModal#{record.id}", "data-toggle" => "modal"%>
+          <%# link_to image_tag(record.image_url), record.prod_url, :target => "_blank"%>
+          <%= link_to image_tag(record.image_url), "#myModal#{record.id}", "data-toggle" => "modal"%>
         <% else %>
           <div class="no-cover">
-            <a href="<%= record.prod_url %>" target="_blank">
+            <a data-toggle="modal" href="#myModal<%= record.id %>">
               <p><%= record.name.blank? ? "N/A" : record.name %> <br />
               by <br />
               <%= record.artist.name.blank? ? "N/A" : record.artist.name %></p>
             </a>
             <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
-            <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), "#myModal#{record.id}", "data-toggle" => "modal"%>
+            <%# link_to "#myModal#{record.id}", "data-toggle" => "modal"%>
           </div>
         <% end %>
       </div>
@@ -33,17 +33,21 @@
       <div id="myModal<%= record.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">Music Info</h3>
+          <h3 id="myModalLabel">Record Info</h3>
         </div>
         <div class="modal-body">
-          <b>
-            Album: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %> <br /> 
-            Artist: <%= record.artist.name.blank? ? "N/A" : record.artist.name.truncate(34) %> <br /> 
-            Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
-            Price: $<%= record.price %> 
-          </b>
+          <%= image_tag(record.image_url, :size => "300x300") %> <br />
+          <b>Album:</b> <%= record.name.blank? ? "N/A" : record.name %> <br /> 
+          <b>Artist:</b> <%= record.artist.name.blank? ? "N/A" : record.artist.name %> <br /> 
+          <b>Release Date:</b> <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
+          <b>Record Label:</b> <%= record.record_label %> <br /> 
         </div>
         <div class="modal-footer">
+          <div class="links">
+            <%= link_to image_tag("/assets/amazon32x32.png"), record.prod_url, :target => "_blank" %>
+            <%= link_to(image_tag("/assets/spotify32x32.png"), record.spotify_uri) unless record.spotify_uri.blank? %>
+            <%= link_to(image_tag("/assets/discogs32x32.png"), "http://www.discogs.com#{record.discogs_uri}", :target => "_blank") unless record.discogs_uri.blank? %>
+          </div>
           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         </div>
       </div>
@@ -53,7 +57,6 @@
           Album: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %> <br /> 
           Artist: <%= record.artist.name.blank? ? "N/A" : record.artist.name.truncate(34) %> <br /> 
           Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
-          Price: $<%= record.price %> 
         </b>
       </div>
     </div>

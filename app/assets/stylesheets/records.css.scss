@@ -87,6 +87,12 @@ p {
   -ms-transition:opacity .1s linear;
   -o-transition:opacity .1s linear;
   transition:opacity .1s linear;
+  //height: 500px;
+  width: 400px;
+}
+
+.modal-footer .links{
+  float: left;
 }
 
 .filter {
@@ -140,13 +146,13 @@ p {
   float: left;
 }
 
-.record-each img{
+.record-each .shadow img{
   width: 300px;
   height: 300px;
 }
 
 .record-each .popup {
-    height: 70px;
+    height: 55px;
     width: 100%;
     text-align: center;
     vertical-align:middle;
@@ -278,6 +284,11 @@ p {
     height: 250px;
   }
 
+  .record-each .shadow img{
+    width: 250px;
+    height: 250px;
+  }
+
   .no-cover{
     width: 250px;
     height: 250px;
@@ -314,6 +325,11 @@ p {
   }
 
   .record-each {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .record-each .shadow img{
     width: 250px;
     height: 250px;
   }
