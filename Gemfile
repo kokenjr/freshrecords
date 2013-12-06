@@ -39,6 +39,7 @@ gem 'jitai'
 gem 'rails_12factor'
 gem 'meta-spotify'
 gem 'text'
+gem 'figaro'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

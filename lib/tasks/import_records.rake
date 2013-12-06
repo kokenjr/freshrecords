@@ -18,16 +18,15 @@ task :import_records => :environment do
   #
   # To sign your request, include AWS_secret_key. 
   Amazon::Ecs.options = {
-    :associate_tag => 'vynscrapercom-20',
-    :AWS_access_key_id => 'AKIAIMN7BYQJGA5MFUSA',       
-    :AWS_secret_key => 'V0C5y+UaB3hpCrIS+0k+s6r+ipivLbO+BdVoeunQ'
+    :associate_tag => ENV["AMAZON_ASSOCIATE_TAG"],
+    :AWS_access_key_id => ENV["AWS_ACCESS_KEY_ID"],       
+    :AWS_secret_key => ENV["AWS_SECRET_KEY"]
   }
 
 
   AMZNURL = "http://www.amazon.com"
   AMZNPRODURL = "http://www.amazon.com/s/dp/"
   TOTALPAGES = 250
-  #amznsearchurl = "http://www.amazon.com/s/ref=sr_st?qid=1330826277&rh=i%3Apopular%2Cn%3A5174%2Cp_n_binding_browse-bin%3A387647011&sort=releasedaterank"
   amznsearchurl = "http://www.amazon.com/s/ref=sr_st?bbn=5174&qid=1382985462&rh=n%3A5174%2Cp_n_binding_browse-bin%3A387647011&sort=date-desc-rank"
 
   search_asin = []
@@ -232,7 +231,7 @@ end
 desc "Lastfm data"
 task :fetch_lastfm => :environment do
   
-  Rockstar.lastfm = {:apii_key => "7c58f1848c6ad8ff32cf07fb7e978d7b", :api_secret => "76900414f897ba5c201bba7acb71e72f"}
+  Rockstar.lastfm = {:apii_key => ENV["LASTFM_API_KEY"], :api_secret => ENV["LASTFM_API_SECRET"]}
   progress_bar = ProgressBar.new(Record.count, :bar, :percentage, :eta)
 
   Record.all.each do |record|

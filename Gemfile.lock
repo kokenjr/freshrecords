@@ -47,6 +47,9 @@ GEM
     eventmachine (1.0.3)
     execjs (2.0.2)
     fattr (2.2.1)
+    figaro (0.7.0)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     highline (1.6.19)
     hike (1.2.3)
     hpricot (0.8.6)
@@ -167,6 +170,7 @@ DEPENDENCIES
   amazon-ecs
   bootstrap-sass (~> 2.3.2.0)
   coffee-rails (= 4.0.0)
+  figaro
   jitai
   jquery-rails
   mechanize
