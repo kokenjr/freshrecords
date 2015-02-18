@@ -125,9 +125,9 @@ task :import_records => :environment do
           artist = Artist.find_or_create_by(name: artist_name)
           #Don't update image url if its blank
           record.update_attributes(:image_url => imagelink) unless imagelink == nil || imagelink.include?('41kG2tg40sL')
-          puts ":name => #{album_name}, :artist_id => #{artist.id}, :price => #{price}," +
-           " :release_date => #{date}, :prod_url => #{produrl}, :record_label => #{label}," +
-           ":genre => #{genre}, spotify_uri: #{spotify_uri}, discogs_uri: #{discogs_uri}"
+          # puts ":name => #{album_name}, :artist_id => #{artist.id}, :price => #{price}," +
+          #  " :release_date => #{date}, :prod_url => #{produrl}, :record_label => #{label}," +
+          #  ":genre => #{genre}, spotify_uri: #{spotify_uri}, discogs_uri: #{discogs_uri}"
           record.update_attributes(:name => album_name, :artist_id => artist.id,
             :price => price, :release_date => date, :prod_url => produrl, :record_label => label,
             :genre => genre, spotify_uri: spotify_uri, discogs_uri: discogs_uri)
