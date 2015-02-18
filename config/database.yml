@@ -20,7 +20,7 @@ development:
   pool: 5
   username: vinyl
   password: vinyl
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
 
 test:
   adapter: mysql2
@@ -30,7 +30,7 @@ test:
   pool: 5
   username: vinyl
   password: vinyl
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
 
 #production:
 #  adapter: postgresql
@@ -49,4 +49,4 @@ production:
   pool: 5
   username: vinyl
   password: vinyl
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
