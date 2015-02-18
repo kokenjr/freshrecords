@@ -82,7 +82,7 @@ task :import_records => :environment do
           asin = item.get('ASIN')
           produrl = item.get('DetailPageURL')
           stripped_album_name = album_name.gsub(/\([^)]*\)/,"").strip.gsub(/^&+/,"")
-          
+
           spotify_retry = Proc.new do |exception, try|
             puts "SPOTIFY ERROR; artist: #{artist_name}; album: #{stripped_album_name}; exception: #{exception.class}; message: #{exception.message}; tries: #{try}"
           end
@@ -125,7 +125,12 @@ task :import_records => :environment do
           artist = Artist.find_or_create_by(name: artist_name)
           #Don't update image url if its blank
           record.update_attributes(:image_url => imagelink) unless imagelink == nil || imagelink.include?('41kG2tg40sL')
-          record.update_attributes(:name => album_name, :artist_id => artist.id, :price => price, :release_date => date, :prod_url => produrl, :record_label => label, :genre => genre, spotify_uri: spotify_uri, discogs_uri: discogs_uri)
+          puts ":name => #{album_name}, :artist_id => #{artist.id}, :price => #{price}," +
+           " :release_date => #{date}, :prod_url => #{produrl}, :record_label => #{label}," +
+           ":genre => #{genre}, spotify_uri: #{spotify_uri}, discogs_uri: #{discogs_uri}"
+          record.update_attributes(:name => album_name, :artist_id => artist.id,
+            :price => price, :release_date => date, :prod_url => produrl, :record_label => label,
+            :genre => genre, spotify_uri: spotify_uri, discogs_uri: discogs_uri)
 
         end
         search_asin = []
