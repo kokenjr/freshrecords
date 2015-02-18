@@ -8,7 +8,7 @@ require 'rockstar'
 require 'retriable'
 require 'rspotify'
 require 'fuzzystringmatch'
-  
+
 USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64)"
 
 desc "Import Records"
@@ -17,14 +17,14 @@ task :import_records => :environment do
   start_time = Time.now
   # Set the default options; options will be camelized and converted to REST request parameters.
   # associate_tag and AWS_access_key_id are required options, associate_tag is required option
-  # since API version 2011-08-01. 
+  # since API version 2011-08-01.
   #
-  # To sign your request, include AWS_secret_key. 
+  # To sign your request, include AWS_secret_key.
   # Amazon::Ecs.options = {
   #   :version => "2013-08-01",
   #   :service => "AWSECommerceService",
   #   :associate_tag => ENV["AMAZON_ASSOCIATE_TAG"],
-  #   :AWS_access_key_id => ENV["AWS_ACCESS_KEY_ID"],       
+  #   :AWS_access_key_id => ENV["AWS_ACCESS_KEY_ID"],
   #   :AWS_secret_key => ENV["AWS_SECRET_KEY"]
   # }
 
@@ -72,16 +72,16 @@ task :import_records => :environment do
           album_name = item_attributes.get('Title').gsub('&amp;', '&')
           artist_name = item_attributes.get('Artist').to_s.gsub('&amp;', '&')
           genre = item.get('BrowseNodes/BrowseNode/Name').gsub('&amp;', '&')
-          
+
           genre = nil if genre == "Styles"
-          
+
           price = item.get('OfferSummary/LowestNewPrice/FormattedPrice').to_s.gsub('$',"").to_f
           date = item_attributes.get('ReleaseDate')
           imagelink = item.get('LargeImage/URL')
           label = item_attributes.get('Label')
           asin = item.get('ASIN')
           produrl = item.get('DetailPageURL')
-          stripped_album_name = album_name.gsub(/\([^)]*\)/,"").strip
+          stripped_album_name = album_name.gsub(/\([^)]*\)/,"").strip.gsub(/^&+/,"")
           
           spotify_retry = Proc.new do |exception, try|
             puts "SPOTIFY ERROR; artist: #{artist_name}; album: #{stripped_album_name}; exception: #{exception.class}; message: #{exception.message}; tries: #{try}"
@@ -103,7 +103,7 @@ task :import_records => :environment do
               if album_distance >= 0.75
                 artist_distance = fuzzy_match.getDistance(artist_name, album.artists.first.try(:name))
                 if artist_distance >= 0.75
-                  spotify_uri = album.uri 
+                  spotify_uri = album.uri
                   break
                 end
               else
@@ -172,7 +172,7 @@ task :fetch_albumart => :environment do
     album_name = record.name ? record.name : ""
     stripped_album_name = album_name.gsub(/\([^)]*\)/,"").strip
     artist_name = record.artist.try(:name)
-      
+
     #make sure URL is valid, if it isn't remove the record
     begin
       resp = Net::HTTP.get_response(URI.parse(record.prod_url))
@@ -185,7 +185,7 @@ task :fetch_albumart => :environment do
       retry
     end
 
-    #get discogs info 
+    #get discogs info
     #unless record.discogs_uri.blank?
     #  begin
     #    discogs_url = "http://api.discogs.com/#{record.discogs_uri.split("/")[2..3].join("s/")}"
@@ -221,7 +221,7 @@ task :fetch_albumart => :environment do
         itunes = ITunes.music("#{artist_name} #{stripped_album_name}")
         its_album = itunes["results"].first
       end
-      
+
       image_link = its_album["artworkUrl100"].gsub("100x100","400x400") if its_album
 
       if image_link.blank?
@@ -234,7 +234,7 @@ task :fetch_albumart => :environment do
           res = Amazon::Ecs.item_search("#{stripped_album_name} #{artist_name}", :search_index => 'Music', :response_group => 'Images')
           amz_album = res.items.first
         end
-        
+
         image_link = amz_album.get("LargeImage/URL") if amz_album
       end
 
@@ -244,7 +244,7 @@ task :fetch_albumart => :environment do
     # else
     # #Use Amazon search to find cover art
     #   amzn_music_search_url = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dpopular&field-keywords="
-      
+
     #   begin
     #     record_page = Nokogiri::HTML(open(record.prod_url, "User-Agent" => USER_AGENT))
     #   rescue Exception => e
@@ -253,7 +253,7 @@ task :fetch_albumart => :environment do
     #   end
     #   record_page.css(".noLinkDecoration a").each do |rp|
     #     if rp.attribute("href").text.include?("http")
-          
+
     #       #make sure url is valid, if not skip to next scraping method
     #       begin
     #         resp = Net::HTTP.get_response(URI.parse(rp.attribute("href").text))
@@ -262,7 +262,7 @@ task :fetch_albumart => :environment do
     #         puts "Response check error: #{e.message}"
     #         retry
     #       end
-        
+
     #       begin
     #         rp_page = Nokogiri::HTML(open(rp.attribute("href").text, "User-Agent" => USER_AGENT))
     #       rescue Exception => e
@@ -280,7 +280,7 @@ task :fetch_albumart => :environment do
     #       image_link = nil
     #     end
     #   end
-  
+
     #   if image_link.nil? && !record.artist.blank?
     #     begin
     #       image_search = Nokogiri::HTML(open(amzn_music_search_url + CGI::escape(record.artist.name + " " + record.name), "User-Agent" => USER_AGENT))
@@ -313,7 +313,7 @@ end
 
 desc "Lastfm data"
 task :fetch_lastfm => :environment do
-  
+
   Rockstar.lastfm = {:apii_key => ENV["LASTFM_API_KEY"], :api_secret => ENV["LASTFM_API_SECRET"]}
   progress_bar = ProgressBar.new(Record.count, :bar, :percentage, :eta)
 
@@ -325,7 +325,7 @@ task :fetch_lastfm => :environment do
     else
       top_tag = []
     end
-    
+
     if top_tag.blank?
       genre = nil
     else
@@ -337,4 +337,3 @@ task :fetch_lastfm => :environment do
     record.update_attributes(:genre => genre)
   end
 end
-
