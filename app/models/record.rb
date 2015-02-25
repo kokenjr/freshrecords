@@ -104,11 +104,11 @@ class Record < ActiveRecord::Base
   self.per_page = 24
 
   def self.genre_options
-    where('genre IS NOT NULL').group(:genre).order('genre ASC').map { |r| [r.genre] }
+    where('genre IS NOT NULL').select('DISTINCT genre').order('genre ASC').map { |r| [r.genre] }
   end
 
   def self.label_options
-    where('record_label IS NOT NULL').group(:record_label).order('record_label ASC').map { |r| [r.record_label] }
+    where('record_label IS NOT NULL').select('DISTINCT record_label').order('record_label ASC').map { |r| [r.record_label] }
   end
 
   def self.released_options
