@@ -9,8 +9,9 @@ gem 'rails', '4.0.0'
 gem 'mysql2'
 
 group :production do
-gem 'pg'
-gem 'thin'
+  gem 'pg'
+  gem 'thin'
+  gem 'rails_12factor'
 end
 
 # Gems used only for assets and not required
@@ -36,7 +37,6 @@ gem 'newrelic_rpm'
 gem 'jitai'
 #gem 'protected_attributes'
 #gem 'rb-readline', '0.5.0'
-gem 'rails_12factor'
 gem 'text'
 gem 'figaro'
 gem 'seed_dump'

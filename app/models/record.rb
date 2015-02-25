@@ -20,9 +20,9 @@ class Record < ActiveRecord::Base
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
     when /^release_date_/
-      order("records.release_date #{ direction }, created_at DESC")
+      order("records.release_date #{ direction }, records.created_at DESC")
     when /^name/
-      order("records.name #{ direction }, created_at DESC")
+      order("records.name #{ direction }, records.created_at DESC")
     else
       raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
     end
@@ -32,24 +32,27 @@ class Record < ActiveRecord::Base
     return nil  if query.blank?
     # condition query, parse into individual keywords
     terms = query.downcase.split(/\s+/)
+
     # replace "*" with "%" for wildcard searches,
     # append '%', remove duplicate '%'s
-    terms = terms.map { |e|
-      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
-    }
+    # terms = terms.map { |e|
+    #   (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+    # }
+
     # configure number of OR conditions for provision
     # of interpolation arguments. Adjust this if you
     # change the number of OR conditions.
-    num_or_conditions = 1
-    where(
+    num_or_conditions = 2
+    includes(:artist).where(
     terms.map {
       or_clauses = [
-        "LOWER(records.name) LIKE ?"
+        "LOWER(records.name) LIKE ?",
+        "LOWER(artists.name) LIKE ?"
       ].join(' OR ')
       "(#{ or_clauses })"
     }.join(' AND '),
-    *terms.map { |e| [e] * num_or_conditions }.flatten
-    )
+    *terms.map { |e| ["%#{e}%"] * num_or_conditions }.flatten
+    ).references(:artist)
   }
 
   scope :with_record_label, lambda { |record_label|
