@@ -1,7 +1,7 @@
 Vynscraper::Application.routes.draw do
 
-#  get "records" => "records#index"
-  #root :to => "records#index"
+  devise_for :users
+
   root :to => "records#index"
   get "comingsoon" => "records#comingsoon"
 
