@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+//= require bootstrap-sprockets
+//= require filterrific/filterrific-jquery
 //= require_tree .

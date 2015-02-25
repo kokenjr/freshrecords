@@ -2,59 +2,45 @@ require 'will_paginate/array'
 
 class RecordsController < ApplicationController
   def index
-    case
-    when params[:date] == "This week" then
-      @records = Record.this_week(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "Last week" then
-      @records = Record.last_week(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "2 weeks ago" then
-      @records = Record.two_weeks_ago(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "Last month" then
-      @records = Record.last_month(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "2 months ago" then
-      @records = Record.two_months_ago(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "3 months ago" then
-      @records = Record.three_months_ago(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "" then
-      @records = Record.all_new(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    else
-      @records = Record.all_new("").paginate(:page => params[:page], :per_page => 24)
-    end
+    @filterrific = initialize_filterrific(
+      Record,
+      params[:filterrific],
+      :select_options => {
+        sorted_by: Record.options_for_sorted_by,
+        with_record_label: Record.label_options,
+        with_released_range: Record.released_options,
+        with_genre: Record.genre_options
+      },
+      default_filter_params: {sorted_by: "release_date_desc"}
+    ) or return
+
+    @records = @filterrific.find.where("release_date <= ?", Date.today).page(params[:page])
 
     respond_to do |format|
       format.js
-      format.html # index.html.erb
-      format.xml  { render :xml => @records }
+      format.html
     end
-
   end
 
   def comingsoon
-    case
-    when params[:date] == "This week" then
-      @records = Record.coming_this_week(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "Next week" then
-      @records = Record.next_week(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "In 2 weeks" then
-      @records = Record.two_weeks_from_now(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "Next month" then
-      @records = Record.next_month(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "In 2 months" then
-      @records = Record.two_months_from_now(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "In 3+ months" then
-      @records = Record.three_months_from_now(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    when params[:date] == "" then
-      @records = Record.coming_soon(params[:genre]).paginate(:page => params[:page], :per_page => 24)
-    else
-      @records = Record.coming_soon("").paginate(:page => params[:page], :per_page => 24)
-    end
+    @filterrific = initialize_filterrific(
+      Record,
+      params[:filterrific],
+      :select_options => {
+        sorted_by: Record.options_for_sorted_by,
+        with_record_label: Record.label_options,
+        with_releasing_range: Record.releasing_options,
+        with_genre: Record.genre_options
+      },
+      default_filter_params: {sorted_by: "release_date_asc"}
+    ) or return
+
+    @records = @filterrific.find.where("release_date > ?", Date.today).page(params[:page])
 
     respond_to do |format|
-      format.js
-      format.html # index.html.erb
-      format.xml  { render :xml => @records }
+      format.js {render "index"}
+      format.html
     end
-
   end
 
 end

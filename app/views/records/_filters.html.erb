@@ -1,0 +1,73 @@
+<div class='filter well'>
+
+  <%= form_for_filterrific @filterrific do |f| %>
+    <div class="row">
+      <div class="col-md-3">
+        <label>Search</label>
+        <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+        <%= f.text_field(
+          :search_query,
+          class: 'filterrific-periodically-observed form-control'
+          ) %>
+      </div>
+      <div class="col-md-2">
+        <label>Record Label</label>
+        <%= f.select(
+          :with_record_label,
+          @filterrific.select_options[:with_record_label],
+          { include_blank: '- Any -' },
+          class: 'form-control'
+        ) %>
+      </div>
+      <div class="col-md-2">
+        <% if @filterrific.select_options[:with_released_range] %>
+          <label>Released</label>
+          <%= f.select(
+            :with_released_range,
+            @filterrific.select_options[:with_released_range],
+            { include_blank: '- Any -' },
+            class: 'form-control'
+          ) %>
+        <% elsif @filterrific.select_options[:with_releasing_range] %>
+          <label>Releasing</label>
+          <%= f.select(
+            :with_releasing_range,
+            @filterrific.select_options[:with_releasing_range],
+            { include_blank: '- Any -' },
+            class: 'form-control'
+          ) %>
+        <% end %>
+      </div>
+      <div class="col-md-2">
+        <label>Genre</label>
+        <%= f.select(
+          :with_genre,
+          @filterrific.select_options[:with_genre],
+          { include_blank: '- Any -' },
+          class: 'form-control'
+        ) %>
+      </div>
+      <div class="col-md-3">
+        <label>Sorted by</label>
+        <%= f.select(
+          :sorted_by,
+          @filterrific.select_options[:sorted_by],
+          {},
+          class: 'form-control'
+        ) %>
+        <%# See below for the Student.options_for_sorted_by presenter method %>
+      </div>
+    </div>
+    <div class="reset">
+      <%= link_to(
+        'Reset filters',
+        reset_filterrific_url,
+        class: "btn btn-default",
+        role: "button"
+      ) %>
+    </div>
+  <% end %>
+</div>
+
+<%# add an automated spinner to your form when the list is refreshed %>
+<%= render_filterrific_spinner %>

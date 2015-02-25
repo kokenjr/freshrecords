@@ -1,7 +1,13 @@
-$('#records').append('<%= j render :partial => 'records' %>');
-<% if @records.next_page %>
-  $('.pagination').replaceWith('<%= j will_paginate @records, :align => "center" %>');
+console.log("page: <%= params[:page] %>");
+<% if params[:page] %>
+  $('#records').append('<%= j render :partial => 'records' %>');
+  <% if @records.next_page %>
+    $('.pagination').replaceWith('<%= j will_paginate @records %>');
+  <% else %>
+    $('.pagination').remove();
+  <% end %>
+  <% sleep 1 %>
 <% else %>
-  $('.pagination').remove();
+  $("#records").html("<%= j render :partial => 'records' %>");
+  $('.pagination').replaceWith('<%= j will_paginate @records %>');
 <% end %>
-<% sleep 1 %>

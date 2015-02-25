@@ -14,7 +14,6 @@
     <div class='record-each'>
       <div class='shadow'>
         <% if record.image_url %>
-          <%# link_to image_tag(record.image_url), record.prod_url, :target => "_blank"%>
           <%= link_to image_tag(record.image_url), "#myModal#{record.id}", "data-toggle" => "modal"%>
         <% else %>
           <div class="no-cover">
@@ -23,40 +22,42 @@
               by <br />
               <%= record.artist.name.blank? ? "N/A" : record.artist.name %></p>
             </a>
-            <%# link_to image_tag("/assets/no-cover.jpg", :size => "300x300"), record.prod_url, :target => "_blank"%>
-            <%# link_to "#myModal#{record.id}", "data-toggle" => "modal"%>
           </div>
         <% end %>
       </div>
-       
+
       <!-- Modal -->
-      <div id="myModal<%= record.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">Record Info</h3>
-        </div>
-        <div class="modal-body">
-          <%= image_tag(record.image_url, :size => "300x300") %> <br />
-          <b>Album:</b> <%= record.name.blank? ? "N/A" : record.name %> <br /> 
-          <b>Artist:</b> <%= record.artist.name.blank? ? "N/A" : record.artist.name %> <br /> 
-          <b>Release Date:</b> <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
-          <b>Record Label:</b> <%= record.record_label %> <br /> 
-        </div>
-        <div class="modal-footer">
-          <div class="links">
-            <%= link_to image_tag("/assets/amazon32x32.png"), record.prod_url, :target => "_blank" %>
-            <%= link_to(image_tag("/assets/spotify32x32.png"), record.spotify_uri) unless record.spotify_uri.blank? %>
-            <%= link_to(image_tag("/assets/discogs32x32.png"), "http://www.discogs.com#{record.discogs_uri}", :target => "_blank") unless record.discogs_uri.blank? %>
+      <div id="myModal<%= record.id %>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="myModalLabel">Record Info</h3>
+            </div>
+            <div class="modal-body">
+              <%= image_tag(record.image_url, :size => "300x300") %> <br />
+              <b>Record:</b> <%= record.name.blank? ? "N/A" : record.name %> <br />
+              <b>Artist:</b> <%= record.artist.name.blank? ? "N/A" : record.artist.name %> <br />
+              <b>Release Date:</b> <%= record.release_date.strftime("%m-%d-%Y") %> <br />
+              <b>Record Label:</b> <%= record.record_label %> <br />
+            </div>
+            <div class="modal-footer">
+              <div class="links">
+                <%= link_to image_tag("/assets/amazon32x32.png"), record.prod_url, :target => "_blank" %>
+                <%= link_to(image_tag("/assets/spotify32x32.png"), record.spotify_uri) unless record.spotify_uri.blank? %>
+                <%= link_to(image_tag("/assets/discogs32x32.png"), "http://www.discogs.com#{record.discogs_uri}", :target => "_blank") unless record.discogs_uri.blank? %>
+              </div>
+              <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
           </div>
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         </div>
       </div>
 
       <div class='popup'>
         <b>
-          Album: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %> <br /> 
-          Artist: <%= record.artist.name.blank? ? "N/A" : record.artist.name.truncate(34) %> <br /> 
-          Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br /> 
+          Record: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %> <br />
+          Artist: <%= record.artist.name.blank? ? "N/A" : record.artist.name.truncate(34) %> <br />
+          Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br />
         </b>
       </div>
     </div>
@@ -65,3 +66,5 @@
 <% else %>
   <h2> No Records Found </h2>
 <% end %>
+
+<!-- <%= will_paginate @records, :align => "center" %> -->

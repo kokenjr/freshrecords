@@ -1,118 +1,127 @@
 class Record < ActiveRecord::Base
   belongs_to :artist
 
+  filterrific(
+    default_filter_params: {},
+    available_filters: [
+      :sorted_by,
+      :search_query,
+      :with_record_label,
+      :with_released_range,
+      :with_releasing_range,
+      :with_genre
+    ]
+  )
+
   scope :genrelist, -> { group(:genre).select(:genre).order('genre IS NOT NULL, genre ASC') }
-  
-  def self.this_week(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', Date.today.beginning_of_week, Date.today], :order => 'release_date DESC, created_at DESC')
+
+  scope :sorted_by, lambda { |sort_option|
+    # extract the sort direction from the param value.
+    direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
+    case sort_option.to_s
+    when /^release_date_/
+      order("records.release_date #{ direction }, created_at DESC")
+    when /^name/
+      order("records.name #{ direction }, created_at DESC")
     else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', Date.today.beginning_of_week, Date.today, genre], :order => 'release_date DESC, created_at DESC')
+      raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
     end
+  }
+
+  scope :search_query, lambda { |query|
+    return nil  if query.blank?
+    # condition query, parse into individual keywords
+    terms = query.downcase.split(/\s+/)
+    # replace "*" with "%" for wildcard searches,
+    # append '%', remove duplicate '%'s
+    terms = terms.map { |e|
+      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+    }
+    # configure number of OR conditions for provision
+    # of interpolation arguments. Adjust this if you
+    # change the number of OR conditions.
+    num_or_conditions = 1
+    where(
+    terms.map {
+      or_clauses = [
+        "LOWER(records.name) LIKE ?"
+      ].join(' OR ')
+      "(#{ or_clauses })"
+    }.join(' AND '),
+    *terms.map { |e| [e] * num_or_conditions }.flatten
+    )
+  }
+
+  scope :with_record_label, lambda { |record_label|
+    where(record_label: record_label)
+  }
+
+  scope :with_released_range, lambda { |release_option|
+    case release_option.downcase
+    when /^this week/
+      where('release_date BETWEEN ? AND ?', Date.today.beginning_of_week, Date.today)
+    when /^last week/
+      where('release_date BETWEEN ? AND ?', 1.week.ago.beginning_of_week, 1.week.ago.end_of_week)
+    when /^2 weeks ago/
+      where('release_date BETWEEN ? AND ?', 2.weeks.ago.beginning_of_week, 2.weeks.ago.end_of_week)
+    when /^last month/
+      where('release_date BETWEEN ? AND ?', 1.month.ago.beginning_of_month, 1.month.ago.end_of_month)
+    when /^2 months ago/
+      where('release_date BETWEEN ? AND ?', 2.months.ago.beginning_of_month, 2.months.ago.end_of_month)
+    when /^3 months ago/
+      where('release_date BETWEEN ? AND ?', 3.months.ago.beginning_of_month, 3.months.ago.end_of_month)
+    else
+      raise(ArgumentError, "Invalid release option: #{ release_option.inspect }")
+    end
+  }
+
+  scope :with_releasing_range, lambda { |release_option|
+    case release_option.downcase
+    when /^this week/
+      where('release_date BETWEEN ? AND ?', Date.tomorrow, Date.today.end_of_week)
+    when /^next week/
+      where('release_date BETWEEN ? AND ?', 1.week.from_now.beginning_of_week, 1.week.from_now.end_of_week)
+    when /^in 2 weeks/
+      where('release_date BETWEEN ? AND ?', 2.weeks.from_now.beginning_of_week, 2.weeks.from_now.end_of_week)
+    when /^next month/
+      where('release_date BETWEEN ? AND ?', 1.month.from_now.beginning_of_month, 1.month.from_now.end_of_month)
+    when /^in 2 months/
+      where('release_date BETWEEN ? AND ?', 2.months.from_now.beginning_of_month, 2.months.from_now.end_of_month)
+    when /^in 3+ months/
+      where('release_date >= ?', 3.months.from_now.beginning_of_month)
+    else
+      raise(ArgumentError, "Invalid release option: #{ release_option.inspect }")
+    end
+  }
+
+  scope :with_genre, lambda { |genre|
+    where(genre: genre)
+  }
+
+  self.per_page = 24
+
+  def self.genre_options
+    where('genre IS NOT NULL').group(:genre).order('genre ASC').map { |r| [r.genre] }
   end
-  
-  def self.coming_this_week(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', Date.tomorrow, Date.today.end_of_week], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', Date.tomorrow, Date.today.end_of_week, genre], :order => 'release_date ASC, created_at DESC')
-    end
+
+  def self.label_options
+    where('record_label IS NOT NULL').group(:record_label).order('record_label ASC').map { |r| [r.record_label] }
   end
-  
-  def self.last_week(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 1.week.ago.beginning_of_week, 1.week.ago.end_of_week], :order => 'release_date DESC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 1.week.ago.beginning_of_week, 1.week.ago.end_of_week, genre], :order => 'release_date DESC, created_at DESC')
-    end
+
+  def self.released_options
+    ['This week', 'Last week', '2 weeks ago', 'Last month', '2 months ago', '3 months ago']
   end
-  
-  def self.next_week(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 1.week.from_now.beginning_of_week, 1.week.from_now.end_of_week], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 1.week.from_now.beginning_of_week, 1.week.from_now.end_of_week, genre], :order => 'release_date ASC, created_at DESC')
-    end
+
+  def self.releasing_options
+    ['This week', 'Next week', 'In 2 weeks', 'Next month', 'In 2 months', 'In 3+ months']
   end
-  
-  def self.two_weeks_ago(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 2.weeks.ago.beginning_of_week, 2.weeks.ago.end_of_week], :order => 'release_date DESC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 2.weeks.ago.beginning_of_week, 2.weeks.ago.end_of_week, genre], :order => 'release_date DESC, created_at DESC')
-    end
-  end
-  
-  def self.two_weeks_from_now(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 2.weeks.from_now.beginning_of_week, 2.weeks.from_now.end_of_week], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 2.weeks.from_now.beginning_of_week, 2.weeks.from_now.end_of_week, genre], :order => 'release_date ASC, created_at DESC')
-    end
-  end
-  
-  def self.last_month(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 1.month.ago.beginning_of_month, 1.month.ago.end_of_month], :order => 'release_date DESC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 1.month.ago.beginning_of_month, 1.month.ago.end_of_month, genre], :order => 'release_date DESC, created_at DESC')
-    end
-  end
-  
-  def self.next_month(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 1.month.from_now.beginning_of_month, 1.month.from_now.end_of_month], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 1.month.from_now.beginning_of_month, 1.month.from_now.end_of_month, genre], :order => 'release_date ASC, created_at DESC')
-    end
-  end
-  
-  def self.two_months_ago(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 2.months.ago.beginning_of_month, 2.months.ago.end_of_month], :order => 'release_date DESC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 2.months.ago.beginning_of_month, 2.months.ago.end_of_month, genre], :order => 'release_date DESC, created_at DESC')
-    end
-  end
-  
-  def self.two_months_from_now(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 2.months.from_now.beginning_of_month, 2.months.from_now.end_of_month], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 2.months.from_now.beginning_of_month, 2.months.from_now.end_of_month, genre], :order => 'release_date ASC, created_at DESC')
-    end
-  end
-  
-  def self.three_months_ago(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date BETWEEN ? AND ?', 3.months.ago.beginning_of_month, 3.months.ago.end_of_month], :order => 'release_date DESC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date BETWEEN ? AND ? AND genre = ?', 3.months.ago.beginning_of_month, 3.months.ago.end_of_month, genre], :order => 'release_date DESC, created_at DESC')
-    end
-  end
-  
-  def self.three_months_from_now(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date >= ?', 3.months.from_now.beginning_of_month], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date >= ? AND genre = ?', 3.months.from_now.beginning_of_month, genre], :order => 'release_date ASC, created_at DESC')
-    end
-  end
-  
-  def self.coming_soon(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date > ?', Date.today], :order => 'release_date ASC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date > ? AND genre = ?', Date.today, genre], :order => 'release_date ASC, created_at DESC')
-    end
-  end
-  
-  def self.all_new(genre)
-    if genre == ""
-      find(:all, :conditions => ['release_date <= ?', Date.today], :order => 'release_date DESC, created_at DESC')
-    else
-      find(:all, :conditions => ['release_date <= ? AND genre = ?', Date.today, genre], :order => 'release_date DESC, created_at DESC')
-    end
+
+  def self.options_for_sorted_by
+    [
+      ['Record Name (a-z)', 'name_asc'],
+      ['Release date (newest first)', 'release_date_desc'],
+      ['Release date (oldest first)', 'release_date_asc'],
+    ]
   end
 
 end

@@ -29,7 +29,8 @@
 }
 
 body {
-  background: #cff;
+  // background: #cff;
+  background: #EFEDED;
   padding-top: 60px;
 }
 
@@ -42,7 +43,7 @@ body {
   color: #fff;
   text-transform: uppercase;
   letter-spacing: -1px;
-  padding-top: 9px;
+  padding-top: 13px;
   font-weight: bold;
   line-height: 1;
 }
@@ -87,7 +88,9 @@ p {
   -ms-transition:opacity .1s linear;
   -o-transition:opacity .1s linear;
   transition:opacity .1s linear;
-  //height: 500px;
+}
+
+.modal-dialog {
   width: 400px;
 }
 
@@ -95,21 +98,13 @@ p {
   float: left;
 }
 
-.filter {
-  margin:0 auto;
-  width: 650px;
-}
-
-.filter input {
-  vertical-align: top;
+.filter .reset{
+  padding-top: 20px;
 }
 
 .container{
-  width: 1265px;
+  width: 1310px;
 }
-
-
-
 
 #records {
 }
@@ -121,7 +116,8 @@ p {
   background: #fff;
 }
 
-.pagination { 
+.pagination-centered {
+  text-align: center;
 }
 
 .shadow:hover {
@@ -209,9 +205,9 @@ p {
 
 .footer a {
   color: #555;
-}  
+}
 
-.footer a:hover { 
+.footer a:hover {
   color: #222;
 }
 
@@ -275,7 +271,7 @@ p {
   }
 
   .filter {
-    width: 200px; 
+    width: 200px;
     margin:0 auto;
   }
 
@@ -309,7 +305,7 @@ p {
 }
 
 /* Landscape phones and down */
-@media (max-width: 480px) { 
+@media (max-width: 480px) {
   body {
     padding-left: 0px;
     padding-top: 0px;
@@ -328,7 +324,7 @@ p {
     width: 250px;
     height: 250px;
   }
-  
+
   .record-each .shadow img{
     width: 250px;
     height: 250px;

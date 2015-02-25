@@ -15,14 +15,14 @@ end
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails',   '4.0.0'
+gem 'sass-rails',   '>= 3.2'
 gem 'coffee-rails', '4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer'
 
 gem 'uglifier', '>= 1.3.0'
-gem 'bootstrap-sass', '~> 2.3.2.0'
+gem 'bootstrap-sass', '~> 3.3.3'
 
 gem 'jquery-rails'
 
@@ -45,6 +45,8 @@ gem 'retriable'
 gem 'rspotify'
 gem 'fuzzy-string-match'
 gem 'itunes'
+gem 'devise'
+gem 'filterrific'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

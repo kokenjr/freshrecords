@@ -1,8 +1,0 @@
-$('#records').append('<%= j render :partial => 'records' %>');
-<% if @records.next_page %>
-  $('.pagination').replaceWith('<%= j will_paginate @records, :align => "center" %>');
-<% else %>
-  $('.pagination').remove();
-<% end %>
-<% sleep 1 %>
-
