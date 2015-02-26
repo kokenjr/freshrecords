@@ -9,5 +9,5 @@ console.log("page: <%= params[:page] %>");
   <% sleep 1 %>
 <% else %>
   $("#records").html("<%= j render :partial => 'records' %>");
-  $('.pagination').replaceWith('<%= j will_paginate @records %>');
+  $('.pagination').html('<%= j will_paginate @records %>');
 <% end %>
