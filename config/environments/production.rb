@@ -3,7 +3,7 @@ Vynscraper::Application.configure do
 
   # Code is not reloaded between requests
   config.cache_classes = true
-  
+
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on
@@ -22,7 +22,7 @@ Vynscraper::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  config.assets.precompile += %w( records.js popup.js)
+  config.assets.precompile += %w( records.js popup.js records.css)
 
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
