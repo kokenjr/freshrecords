@@ -1,30 +1,19 @@
 <%= javascript_include_tag "popup" %>
 
 <% unless @records.empty? %>
-<% if @records.current_page == 1 && @records.next_page.blank? %>
-  <div class='record' style="border-radius: 10px;">
-<% elsif @records.current_page == 1 && !@records.next_page.blank? %>
-  <div class='record' style="border-radius: 10px 10px 0px 0px;">
-<% elsif @records.current_page != 1 && @records.next_page.blank? %>
-  <div class='record' style="border-radius: 0px 0px 10px 10px;">
-<% else %>
-  <div class='record'>
-<% end %>
   <% @records.each do |record| %>
     <div class='record-each'>
-      <div class='shadow'>
-        <% if record.image_url %>
-          <%= link_to image_tag(record.image_url), "#myModal#{record.id}", "data-toggle" => "modal"%>
-        <% else %>
-          <div class="no-cover">
-            <a data-toggle="modal" href="#myModal<%= record.id %>">
-              <p><%= record.name.blank? ? "N/A" : record.name %> <br />
-              by <br />
-              <%= record.artist.name.blank? ? "N/A" : record.artist.name %></p>
-            </a>
-          </div>
-        <% end %>
-      </div>
+      <% if record.image_url %>
+        <%= link_to image_tag(record.image_url), "#myModal#{record.id}", "data-toggle" => "modal", class: "record-cover"%>
+      <% else %>
+        <div class="no-cover">
+          <a data-toggle="modal" href="#myModal<%= record.id %>">
+            <p><%= record.name.blank? ? "N/A" : record.name %> <br />
+            by <br />
+            <%= record.artist.name.blank? ? "N/A" : record.artist.name %></p>
+          </a>
+        </div>
+      <% end %>
 
       <!-- Modal -->
       <div id="myModal<%= record.id %>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -35,7 +24,11 @@
               <h3 id="myModalLabel">Record Info</h3>
             </div>
             <div class="modal-body">
-              <%= image_tag(record.image_url, :size => "300x300") if record.image_url %> <br />
+              <% if record.image_url %>
+                <div class="modal-cover">
+                  <%= image_tag(record.image_url, :size => "300x300") %> <br />
+                </div>
+              <% end %>
               <b>Record:</b> <%= record.name.blank? ? "N/A" : record.name %> <br />
               <b>Artist:</b> <%= record.artist.name.blank? ? "N/A" : record.artist.name %> <br />
               <b>Release Date:</b> <%= record.release_date.strftime("%m-%d-%Y") %> <br />
@@ -62,9 +55,9 @@
       </div>
     </div>
   <% end %>
-</div>
 <% else %>
   <h2> No Records Found </h2>
 <% end %>
+
 
 <!-- <%= will_paginate @records, :align => "center" %> -->

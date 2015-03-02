@@ -1,6 +1,6 @@
 console.log("page: <%= params[:page] %>");
 <% if params[:page] %>
-  $('#records').append('<%= j render :partial => 'records' %>');
+  $('.record').append('<%= j render :partial => 'records' %>');
   <% if @records.next_page %>
     $('.pagination').replaceWith('<%= j will_paginate @records %>');
   <% else %>
@@ -8,6 +8,6 @@ console.log("page: <%= params[:page] %>");
   <% end %>
   <% sleep 1 %>
 <% else %>
-  $("#records").html("<%= j render :partial => 'records' %>");
+  $(".record").html("<%= j render :partial => 'records' %>");
   $('.pagination').html('<%= j will_paginate @records %>');
 <% end %>

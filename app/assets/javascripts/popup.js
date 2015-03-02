@@ -4,6 +4,6 @@ $(document).ready(function() {
       $(this).find('.popup').show();
     }, function() {
       $('.popup').hide();
-    }); 
-  }); 
+    });
+  });
 });
