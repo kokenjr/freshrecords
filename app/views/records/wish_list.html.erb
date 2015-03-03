@@ -1,0 +1,13 @@
+<h1 align="center">Wish List</h1>
+
+<%= render partial: 'filters' %>
+
+<div id='records'>
+  <div class='record'>
+    <%= render partial: 'records' %>
+  </div>
+</div>
+
+<div class="pagination-centered">
+  <%= will_paginate @records %>
+</div>

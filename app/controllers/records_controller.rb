@@ -1,6 +1,7 @@
 require 'will_paginate/array'
 
 class RecordsController < ApplicationController
+  before_action :authenticate_user!, only: [:wish_list]
   def index
     @filterrific = initialize_filterrific(
       Record,
@@ -22,7 +23,7 @@ class RecordsController < ApplicationController
     end
   end
 
-  def comingsoon
+  def coming_soon
     @filterrific = initialize_filterrific(
       Record,
       params[:filterrific],
@@ -43,4 +44,23 @@ class RecordsController < ApplicationController
     end
   end
 
+  def wish_list
+    @filterrific = initialize_filterrific(
+      Record,
+      params[:filterrific],
+      :select_options => {
+        sorted_by: Record.options_for_sorted_by,
+        with_record_label: Record.label_options,
+        with_genre: Record.genre_options
+      },
+      default_filter_params: {sorted_by: "name_asc"}
+    ) or return
+
+    @records = @filterrific.find.page(params[:page])
+
+    respond_to do |format|
+      format.js {render "index"}
+      format.html
+    end
+  end
 end

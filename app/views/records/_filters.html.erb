@@ -10,7 +10,11 @@
           class: 'filterrific-periodically-observed form-control'
           ) %>
       </div>
+      <% if current_page?(wish_list_path) %>
+      <div class="col-md-4">
+      <% else %>
       <div class="col-md-2">
+      <% end %>
         <label>Record Label</label>
         <%= f.select(
           :with_record_label,
@@ -19,8 +23,8 @@
           class: 'form-control'
         ) %>
       </div>
-      <div class="col-md-2">
-        <% if @filterrific.select_options[:with_released_range] %>
+      <% if @filterrific.select_options[:with_released_range] %>
+        <div class="col-md-2">
           <label>Released</label>
           <%= f.select(
             :with_released_range,
@@ -28,7 +32,9 @@
             { include_blank: '- Any -' },
             class: 'form-control'
           ) %>
-        <% elsif @filterrific.select_options[:with_releasing_range] %>
+        </div>
+      <% elsif @filterrific.select_options[:with_releasing_range] %>
+        <div class="col-md-2">
           <label>Releasing</label>
           <%= f.select(
             :with_releasing_range,
@@ -36,8 +42,8 @@
             { include_blank: '- Any -' },
             class: 'form-control'
           ) %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
       <div class="col-md-2">
         <label>Genre</label>
         <%= f.select(

@@ -17,8 +17,21 @@
       <div class="collapse navbar-collapse" id="navbar-collapse-1">
         <!-- .nav, .navbar-search, .navbar-form, etc -->
         <ul class="nav navbar-nav navbar-right" id="release-tab">
-          <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "New Releases",    root_path %></li>
-          <li class="<%= 'active' if current_page?(comingsoon_path) %>"><%= link_to "Coming Soon",    comingsoon_path %></li>
+          <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "New Releases", root_path %></li>
+          <li class="<%= 'active' if current_page?(coming_soon_path) %>"><%= link_to "Coming Soon", coming_soon_path %></li>
+          <li class="<%= 'active' if current_page?(wish_list_path) %>"><%= link_to "Wish List", wish_list_path %></li>
+          <% if user_signed_in? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Settings</a></li>
+                <li class="divider"></li>
+                <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete%></li></li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= button_to "Sign In", new_user_session_path, class: "btn btn-default navbar-btn", method: :get %></li>
+          <% end %>
         </ul>
       </div>
 

@@ -3,7 +3,8 @@ Vynscraper::Application.routes.draw do
   devise_for :users
 
   root :to => "records#index"
-  get "comingsoon" => "records#comingsoon"
+  get "coming-soon" => "records#coming_soon", as: "coming_soon"
+  get "wish-list" => "records#wish_list", as: "wish_list"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
