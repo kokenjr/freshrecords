@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222031231) do
+ActiveRecord::Schema.define(version: 20150303201932) do
 
   create_table "artists", force: true do |t|
     t.string   "name"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 20150222031231) do
     t.text     "spotify_uri"
     t.text     "discogs_uri"
   end
+
+  create_table "records_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "records_users", ["record_id"], name: "index_records_users_on_record_id", using: :btree
+  add_index "records_users", ["user_id"], name: "index_records_users_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 
 class RecordsController < ApplicationController
-  before_action :authenticate_user!, only: [:wish_list]
+  before_action :authenticate_user!, only: [:wish_list, :add_to_wish_list]
   def index
     @filterrific = initialize_filterrific(
       Record,
@@ -56,11 +56,21 @@ class RecordsController < ApplicationController
       default_filter_params: {sorted_by: "name_asc"}
     ) or return
 
-    @records = @filterrific.find.page(params[:page])
+    @records = @filterrific.find.includes(:users).where("users.id = ?", current_user.id).references(:users).page(params[:page])
 
     respond_to do |format|
       format.js {render "index"}
       format.html
     end
+  end
+
+  def toggle_wish_list
+    records_user = current_user.records.where(id: params[:id])
+    if !records_user.blank?
+      current_user.records.delete(records_user)
+    else
+      current_user.records << Record.find(params[:id])
+    end
+    render nothing: true
   end
 end

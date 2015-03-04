@@ -111,6 +111,10 @@ p {
   float: left;
 }
 
+.wish-list-button {
+  margin-top: 10px;
+}
+
 .filter {
   width: 95%;
   margin: 0 auto 20px auto;
@@ -178,7 +182,7 @@ p {
 .record-each .popup {
     height: 55px;
     // height: 100%;
-    width: 100%;
+    width: 101%;
     text-align: center;
     // vertical-align:middle;
     /* Fallback for web browsers that don't support RGBa */
@@ -192,7 +196,7 @@ p {
     color: white;
     display: none;
     position: relative;
-    left: 1px;
+    left: 0px;
     bottom: 170px;
     // bottom: 300px;
     font-size: .9em;

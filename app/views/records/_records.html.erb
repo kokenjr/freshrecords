@@ -1,8 +1,6 @@
-<%= javascript_include_tag "popup" %>
-
 <% unless @records.empty? %>
   <% @records.each do |record| %>
-    <div class='record-each'>
+    <div class='record-each' id="record-<%= record.id %>">
       <% if record.image_url %>
         <%= link_to image_tag(record.image_url), "#myModal#{record.id}", "data-toggle" => "modal", class: "record-cover"%>
       <% else %>
@@ -15,37 +13,6 @@
         </div>
       <% end %>
 
-      <!-- Modal -->
-      <div id="myModal<%= record.id %>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h3 id="myModalLabel">Record Info</h3>
-            </div>
-            <div class="modal-body">
-              <% if record.image_url %>
-                <div class="modal-cover">
-                  <%= image_tag(record.image_url, :size => "300x300") %> <br />
-                </div>
-              <% end %>
-              <b>Record:</b> <%= record.name.blank? ? "N/A" : record.name %> <br />
-              <b>Artist:</b> <%= record.artist.name.blank? ? "N/A" : record.artist.name %> <br />
-              <b>Release Date:</b> <%= record.release_date.strftime("%m-%d-%Y") %> <br />
-              <b>Record Label:</b> <%= record.record_label %> <br />
-            </div>
-            <div class="modal-footer">
-              <div class="links">
-                <%= link_to image_tag("/assets/amazon32x32.png"), record.prod_url, :target => "_blank" %>
-                <%= link_to(image_tag("/assets/spotify32x32.png"), record.spotify_uri) unless record.spotify_uri.blank? %>
-                <%= link_to(image_tag("/assets/discogs32x32.png"), "http://www.discogs.com#{record.discogs_uri}", :target => "_blank") unless record.discogs_uri.blank? %>
-              </div>
-              <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class='popup'>
         <b>
           Record: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %> <br />
@@ -54,10 +21,42 @@
         </b>
       </div>
     </div>
+
+    <!-- Modal -->
+    <div id="myModal<%= record.id %>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Record Info</h3>
+          </div>
+          <div class="modal-body">
+            <% if record.image_url %>
+              <div class="modal-cover">
+                <%= image_tag(record.image_url, :size => "300x300") %> <br />
+              </div>
+            <% end %>
+            <b>Record:</b> <%= record.name.blank? ? "N/A" : record.name %> <br />
+            <b>Artist:</b> <%= record.artist.name.blank? ? "N/A" : record.artist.name %> <br />
+            <b>Release Date:</b> <%= record.release_date.strftime("%m-%d-%Y") %> <br />
+            <b>Record Label:</b> <%= record.record_label %> <br />
+
+            <% active_class = !record.users.where(id: current_user.try(:id)).blank? ? "active" : "" %>
+            <% disabled_class = user_signed_in? ? "" : "disabled" %>
+            <%= link_to "Add to Wish List", toggle_wish_list_path(id: record.id), id: "wish-list-#{record.id}", class: "btn btn-default wish-list-button #{active_class} #{disabled_class}", method: :post, remote: true%>
+          </div>
+          <div class="modal-footer">
+            <div class="links">
+              <%= link_to image_tag("/assets/amazon32x32.png"), record.prod_url, :target => "_blank" %>
+              <%= link_to(image_tag("/assets/spotify32x32.png"), record.spotify_uri) unless record.spotify_uri.blank? %>
+              <%= link_to(image_tag("/assets/discogs32x32.png"), "http://www.discogs.com#{record.discogs_uri}", :target => "_blank") unless record.discogs_uri.blank? %>
+            </div>
+            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
 <% else %>
   <h2> No Records Found </h2>
 <% end %>
-
-
-<!-- <%= will_paginate @records, :align => "center" %> -->

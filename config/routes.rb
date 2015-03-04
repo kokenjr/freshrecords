@@ -5,6 +5,7 @@ Vynscraper::Application.routes.draw do
   root :to => "records#index"
   get "coming-soon" => "records#coming_soon", as: "coming_soon"
   get "wish-list" => "records#wish_list", as: "wish_list"
+  post "wish-list" => "records#toggle_wish_list", as: "toggle_wish_list"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

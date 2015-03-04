@@ -10,3 +10,11 @@ jQuery ->
         $('.pagination').text("Pressing more records...")
         $.getScript(url)
     $(window).scroll()
+
+  $('.wish-list-button').click ->
+    $(this).toggleClass "active"
+    intRegex = /[0-9 -()+]+$/
+    id = $(this).attr('id').match(intRegex)
+    current_page = location.pathname;
+    if current_page == "/wish-list"
+      $("#record-" + id).toggle();
