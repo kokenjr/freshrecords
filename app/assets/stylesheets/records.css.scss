@@ -238,14 +238,20 @@ p {
   line-height: 1.3em;
 }
 
+.center-box{
+  max-width: 400px;
+  background: #fff;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
 #following {
   max-width: 400px;
   margin: 0 auto;
 }
+
 #artists {
   min-height: 400px;
-  background: #fff;
-  border-radius: 10px;
 }
 
 #artist-search {
@@ -253,13 +259,23 @@ p {
 }
 
 #settings-form{
-  max-width: 400px;
-  margin: 0 auto;
   // text-align: center;
   padding: 2px 10px 15px 10px;
   // min-height: 50px;
-  background: #fff;
-  border-radius: 10px;
+}
+
+.login-form{
+  margin: 0 auto;
+  max-width: 330px;
+}
+
+.login-form .actions{
+  margin-top: 15px;
+}
+
+.login-links{
+  margin-top: 5px;
+  text-align: center;
 }
 
 /*-----------------------------------------*/
