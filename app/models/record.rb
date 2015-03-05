@@ -1,7 +1,5 @@
 class Record < ActiveRecord::Base
   belongs_to :artist
-  # has_many :records_users
-  # has_many :users, through: :records_users
   has_and_belongs_to_many :users
 
   filterrific(

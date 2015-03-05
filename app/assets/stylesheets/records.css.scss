@@ -84,6 +84,12 @@ h2 {
   color: #999;
 }
 
+h4 {
+  text-align: center;
+  font-weight: normal;
+  color: #999;
+}
+
 p {
   font-size: 1.1em;
   line-height: 1.7em;
@@ -120,7 +126,7 @@ p {
   margin: 0 auto 20px auto;
 }
 
-.filter .reset{
+.form-button{
   padding-top: 20px;
 }
 
@@ -230,6 +236,20 @@ p {
   font-weight: 900;
   font-size: 1.9em;
   line-height: 1.3em;
+}
+
+#following {
+  max-width: 400px;
+  margin: 0 auto;
+}
+#artists {
+  min-height: 400px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+#artist-search {
+  margin-top: 10px
 }
 
 /*-----------------------------------------*/

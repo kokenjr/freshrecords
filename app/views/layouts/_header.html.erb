@@ -21,10 +21,11 @@
           <li class="<%= 'active' if current_page?(coming_soon_path) %>"><%= link_to "Coming Soon", coming_soon_path %></li>
           <li class="<%= 'active' if current_page?(wish_list_path) %>"><%= link_to "Wish List", wish_list_path %></li>
           <% if user_signed_in? %>
-            <li class="dropdown">
+            <li class="dropdown <%= 'active' if current_page?(artists_path) %>">
               <a href="#" class="dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown" role="button" aria-expanded="false"></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Settings</a></li>
+                <li><%= link_to "Following", artists_path %></li>
                 <li class="divider"></li>
                 <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete%></li></li>
               </ul>

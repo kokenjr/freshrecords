@@ -1,0 +1,6 @@
+<%= form_for :artist, remote: true do |f| %>
+  <%= f.label :name %> <%= f.text_field :name, class: "form-control" %>
+  <div class="form-button">
+    <%= f.submit "Follow", class: "btn btn-default" %>
+  </div>
+<% end %>

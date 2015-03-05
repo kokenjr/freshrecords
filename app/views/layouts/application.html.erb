@@ -27,6 +27,9 @@
 <body>
   <%= render 'layouts/header' %>
   <div class="container">
+    <div id="messages">
+      <%= render 'layouts/messages' %>
+    </div>
     <%= yield %>
     <%# render 'layouts/footer' %>
   </div>

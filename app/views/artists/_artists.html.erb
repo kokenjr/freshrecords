@@ -1,0 +1,13 @@
+<% unless @artists.blank? %>
+  <ul class="list-group">
+    <% @artists.each do |artist| %>
+      <li class="list-group-item"><%= link_to 'x', artist, method: :delete, remote: true, class: "close"%><%= artist.name %> </li>
+    <% end %>
+  </ul>
+<% else %>
+  <h2> Input the artist you want to follow </h2>
+<% end %>
+
+<div class="pagination-centered">
+  <%= will_paginate @artists, renderer: BootstrapPagination::Rails %>
+</div>

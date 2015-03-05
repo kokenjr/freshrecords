@@ -1,4 +1,4 @@
-<% unless @records.empty? %>
+<% unless @records.blank? %>
   <% @records.each do |record| %>
     <div class='record-each' id="record-<%= record.id %>">
       <% if record.image_url %>
