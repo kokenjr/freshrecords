@@ -7,9 +7,8 @@ Vynscraper::Application.routes.draw do
   get "wish-list" => "records#wish_list", as: "wish_list"
   post "wish-list" => "records#toggle_wish_list", as: "toggle_wish_list"
 
-  resources :artists do
-    get 'follow'
-  end
+  resources :artists
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

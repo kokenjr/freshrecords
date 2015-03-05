@@ -252,6 +252,16 @@ p {
   margin-top: 10px
 }
 
+#settings-form{
+  max-width: 400px;
+  margin: 0 auto;
+  // text-align: center;
+  padding: 2px 10px 15px 10px;
+  // min-height: 50px;
+  background: #fff;
+  border-radius: 10px;
+}
+
 /*-----------------------------------------*/
 
 @media screen and (max-width: 430px) {

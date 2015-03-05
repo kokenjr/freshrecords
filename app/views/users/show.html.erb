@@ -1,0 +1,19 @@
+<h1>Settings</h1>
+
+<div id="settings-form">
+  <%= form_for @user do |f| %>
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :artist_notification %> New release email notifications for artists you follow
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <%= f.check_box :wishlist_notification %> New release email notifications for records in wish list
+      </label>
+    </div>
+    <div class="form-button">
+      <%= f.submit "Update", class: "btn btn-default" %>
+    </div>
+  <% end %>
+</div>
