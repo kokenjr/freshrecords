@@ -128,4 +128,12 @@ class Record < ActiveRecord::Base
     ]
   end
 
+  def self.options_for_sorted_by_soon
+    [
+      ['Record Name (a-z)', 'name_asc'],
+      ['Release date (closer first)', 'release_date_asc'],
+      ['Release date (further first)', 'release_date_desc'],
+    ]
+  end
+
 end
