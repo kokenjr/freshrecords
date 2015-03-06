@@ -23,4 +23,6 @@ Vynscraper::Application.configure do
 
   #default URL options for the Devise mailer
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  config.action_mailer.raise_delivery_errors = true
 end

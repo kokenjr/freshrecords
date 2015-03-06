@@ -123,16 +123,8 @@ class Record < ActiveRecord::Base
   def self.options_for_sorted_by
     [
       ['Record Name (a-z)', 'name_asc'],
-      ['Release date (newest first)', 'release_date_desc'],
-      ['Release date (oldest first)', 'release_date_asc'],
-    ]
-  end
-
-  def self.options_for_sorted_by_soon
-    [
-      ['Record Name (a-z)', 'name_asc'],
-      ['Release date (closer first)', 'release_date_asc'],
-      ['Release date (further first)', 'release_date_desc'],
+      ['Release date (descending)', 'release_date_desc'],
+      ['Release date (ascending)', 'release_date_asc'],
     ]
   end
 

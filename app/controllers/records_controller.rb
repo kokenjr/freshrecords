@@ -28,7 +28,7 @@ class RecordsController < ApplicationController
       Record,
       params[:filterrific],
       :select_options => {
-        sorted_by: Record.options_for_sorted_by_soon,
+        sorted_by: Record.options_for_sorted_by,
         with_record_label: Record.label_options,
         with_releasing_range: Record.releasing_options,
         with_genre: Record.genre_options

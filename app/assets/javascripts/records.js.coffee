@@ -13,10 +13,15 @@ jQuery ->
           $.getScript(url)
       $(window).scroll()
 
-  $('.wish-list-button').click ->
+  $(document).on 'click', '.wish-list-button', ->
     $(this).toggleClass "active"
     intRegex = /[0-9 -()+]+$/
     id = $(this).attr('id').match(intRegex)
     current_page = location.pathname
     if current_page == "/wish-list"
       $("#record-" + id).toggle()
+
+  $(document).on 'mouseenter', '.record-each', ->
+    $(this).find('.popup').show();
+  $(document).on 'mouseleave', '.record-each', ->
+      $(this).find('.popup').hide();

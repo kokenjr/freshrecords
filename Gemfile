@@ -49,6 +49,7 @@ gem 'itunes'
 gem 'devise'
 gem 'filterrific'
 gem 'will_paginate-bootstrap'
+gem 'mandrill_mailer'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
