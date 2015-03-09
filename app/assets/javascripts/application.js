@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.cookie
 //= require bootstrap-sprockets
 //= require filterrific/filterrific-jquery
+//= require jstz
+//= require browser_timezone_rails/set_time_zone
 //= require_tree .

@@ -14,7 +14,7 @@ USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64)"
 desc "Import Records"
 task :import_records => :environment do
 
-  start_time = Time.now
+  start_time = Time.zone.now
   # Set the default options; options will be camelized and converted to REST request parameters.
   # associate_tag and AWS_access_key_id are required options, associate_tag is required option
   # since API version 2011-08-01.
@@ -78,7 +78,7 @@ task :import_records => :environment do
           price = item.get('OfferSummary/LowestNewPrice/FormattedPrice').to_s.gsub('$',"").to_f
           date = item_attributes.get('ReleaseDate')
           imagelink = item.get('LargeImage/URL')
-          label = item_attributes.get('Label')
+          label = item_attributes.get('Label').gsub('&amp;', '&')
           asin = item.get('ASIN')
           produrl = item.get('DetailPageURL')
           stripped_album_name = album_name.gsub(/\([^)]*\)/,"").strip.gsub(/^&+/,"")
@@ -145,13 +145,13 @@ task :import_records => :environment do
     page += 1
   end
   puts "Total Records Loaded = #{record_count}"
-  puts "Duration = #{Time.at(Time.now - start_time).utc.strftime("%H:%M:%S")}"
+  puts "Duration = #{Time.at(Time.zone.now - start_time).utc.strftime("%H:%M:%S")}"
 end
 
 desc "Fetch Album Art"
 task :fetch_albumart => :environment do
 
-  start_time = Time.now
+  start_time = Time.zone.now
   count = 0
   record_count = Record.where(image_url: nil).count
 
@@ -313,7 +313,7 @@ task :fetch_albumart => :environment do
     #puts "Updating art for: " + record.asin + " #" + count.to_s
     record.update_attributes(:image_url => image_link)
   end
-  puts "Duration = #{Time.at(Time.now - start_time).utc.strftime("%H:%M:%S")}"
+  puts "Duration = #{Time.at(Time.zone.now - start_time).utc.strftime("%H:%M:%S")}"
 end
 
 desc "Lastfm data"

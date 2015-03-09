@@ -63,7 +63,7 @@ class Record < ActiveRecord::Base
   scope :with_released_range, lambda { |release_option|
     case release_option.downcase
     when /^this week/
-      where('release_date BETWEEN ? AND ?', Date.today.beginning_of_week, Date.today)
+      where('release_date BETWEEN ? AND ?', Time.zone.today.beginning_of_week, Time.zone.today)
     when /^last week/
       where('release_date BETWEEN ? AND ?', 1.week.ago.beginning_of_week, 1.week.ago.end_of_week)
     when /^2 weeks ago/
@@ -82,7 +82,7 @@ class Record < ActiveRecord::Base
   scope :with_releasing_range, lambda { |release_option|
     case release_option.downcase
     when /^this week/
-      where('release_date BETWEEN ? AND ?', Date.tomorrow, Date.today.end_of_week)
+      where('release_date BETWEEN ? AND ?', Time.zone.today + 1.day, Time.zone.today.end_of_week)
     when /^next week/
       where('release_date BETWEEN ? AND ?', 1.week.from_now.beginning_of_week, 1.week.from_now.end_of_week)
     when /^in 2 weeks/

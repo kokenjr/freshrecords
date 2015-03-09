@@ -15,7 +15,7 @@ class RecordsController < ApplicationController
       default_filter_params: {sorted_by: "release_date_desc"}
     ) or return
 
-    @records = @filterrific.find.where("release_date <= ?", Date.today).page(params[:page])
+    @records = @filterrific.find.where("release_date <= ?", Time.zone.today).page(params[:page])
 
     respond_to do |format|
       format.js
@@ -36,7 +36,7 @@ class RecordsController < ApplicationController
       default_filter_params: {sorted_by: "release_date_asc"}
     ) or return
 
-    @records = @filterrific.find.where("release_date > ?", Date.today).page(params[:page])
+    @records = @filterrific.find.where("release_date > ?", Time.zone.today).page(params[:page])
 
     respond_to do |format|
       format.js {render "index"}
