@@ -78,7 +78,9 @@ task :import_records => :environment do
           price = item.get('OfferSummary/LowestNewPrice/FormattedPrice').to_s.gsub('$',"").to_f
           date = item_attributes.get('ReleaseDate')
           imagelink = item.get('LargeImage/URL')
-          label = item_attributes.get('Label').gsub('&amp;', '&')
+          label = item_attributes.get('Label')
+          label.gsub!('&amp;', '&') unless label.blank?
+          next if label == "Imports"
           asin = item.get('ASIN')
           produrl = item.get('DetailPageURL')
           stripped_album_name = album_name.gsub(/\([^)]*\)/,"").strip.gsub(/^&+/,"")
