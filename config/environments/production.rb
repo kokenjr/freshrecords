@@ -72,5 +72,5 @@ Vynscraper::Application.configure do
   config.action_mailer.default_url_options = { host: 'fresh-records.com'}
   Rails.application.routes.default_url_options[:host] = 'fresh-records.com'
 
-  config.log_level = :debug
+  config.log_level = :info
 end
