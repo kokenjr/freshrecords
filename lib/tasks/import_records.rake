@@ -156,6 +156,7 @@ task :fetch_albumart => :environment do
   start_time = Time.zone.now
   count = 0
   record_count = Record.where(image_url: nil).count
+  fuzzy_match = FuzzyStringMatch::JaroWinkler.create( :pure )
 
   puts "#{record_count} records have no album art"
 
@@ -243,6 +244,24 @@ task :fetch_albumart => :environment do
         end
 
         image_link = amz_album.get("LargeImage/URL") if amz_album
+      end
+
+      if image_link.blank?
+        dj_url = "http://www.deejay.de/content.php?param="
+        search_url = dj_url + CGI::escape(album_name + " " + artist_name)
+
+        search_result = Nokogiri::HTML(open(search_url, "User-Agent" => USER_AGENT))
+        search_result.css(".product").each do |prod|
+          # puts "deejay searching for album: #{album_name}; artist: #{artist_name}"
+          prod_artist = prod.css(".artist").css("a").first.text
+          prod_title = prod.css(".title").css("a").first.text
+          album_distance = fuzzy_match.getDistance(album_name, prod_title)
+          artist_distance = fuzzy_match.getDistance(artist_name, prod_artist)
+          if album_distance >= 0.75 && artist_distance >= 0.75 && !prod.css(".zoom").blank?
+            image_link = prod.css(".zoom").attribute("href").text
+            break
+          end
+        end
       end
 
     #elsif !record.discogs_uri.blank? && !discogs_query["images"].blank?
