@@ -113,7 +113,8 @@ class Record < ActiveRecord::Base
   end
 
   def self.released_options
-    ['This week', 'Last week', '2 weeks ago', 'Last month', '2 months ago', '3 months ago']
+    # ['This week', 'Last week', '2 weeks ago', 'Last month', '2 months ago', '3 months ago']
+    ['This week', 'Last week', '2 weeks ago', 'Last month', '2 months ago']
   end
 
   def self.releasing_options
