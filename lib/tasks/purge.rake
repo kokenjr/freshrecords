@@ -12,4 +12,5 @@ task :purge_rows => :environment do
         artist.delete
       end
     end
+  end
 end
