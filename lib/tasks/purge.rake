@@ -5,4 +5,11 @@ task :purge_rows => :environment do
       record.delete
     end
   end
+  #fix later
+  Artist.each do |artist|
+    if artist.users.blank?
+      if artist.records.blank?
+        artist.delete
+      end
+    end
 end
