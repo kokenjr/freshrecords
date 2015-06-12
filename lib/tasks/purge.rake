@@ -6,7 +6,7 @@ task :purge_rows => :environment do
     end
   end
   #fix later
-  Artist.each do |artist|
+  Artist.all.each do |artist|
     if artist.users.blank?
       if artist.records.blank?
         artist.delete
