@@ -3,25 +3,23 @@
 
 <% unless @records.blank? %>
   <% @records.each do |record| %>
-    <div class='record-each' id="record-<%= record.id %>">
-      <% if record.image_url %>
-        <%= link_to image_tag(record.image_url), "#myModal#{record.id}", "data-toggle" => "modal", class: "record-cover"%>
-      <% else %>
-        <div class="no-cover">
-          <a data-toggle="modal" href="#myModal<%= record.id %>">
-            <p><%= record.name.blank? ? "N/A" : record.name %> <br />
-            by <br />
-            <%= record.artist.name.blank? ? "N/A" : record.artist.name %></p>
-          </a>
-        </div>
-      <% end %>
-
-      <div class='popup'>
-        <b>
-          Record: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %> <br />
-          Artist: <%= record.artist.name.blank? ? "N/A" : record.artist.name.truncate(34) %> <br />
-          Release Date: <%= record.release_date.strftime("%m-%d-%Y") %> <br />
-        </b>
+    <div class="record-each">
+      <div class="hovereffect">
+        <% if record.image_url %>
+          <img class="img-responsive" src="<%= record.image_url %>" alt="">
+        <% else %>
+          <div class="no-cover">
+              <p><%= record.name.blank? ? "N/A" : record.name %></p>
+              <p>by </p>
+              <p><%= record.artist.name.blank? ? "N/A" : record.artist.name %></p>
+          </div>
+        <% end %>
+          <div class="overlay">
+             <p>Record: <%= record.name.blank? ? "N/A" : record.name.truncate(34) %><p>
+             <p>Artist: <%= record.artist.name.blank? ? "N/A" : record.artist.name.truncate(34) %></p>
+             <p>Release Date: <%= record.release_date.strftime("%m-%d-%Y") %></p>
+             <a class="details" data-toggle="modal" href="#myModal<%= record.id %>"></a>
+          </div>
       </div>
     </div>
 
