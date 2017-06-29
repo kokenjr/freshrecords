@@ -1,3 +1,3 @@
-Source code for http://freshrecords.herokuapp.com
+Source code for www.fresh-records.com
 
 More details coming soon...
